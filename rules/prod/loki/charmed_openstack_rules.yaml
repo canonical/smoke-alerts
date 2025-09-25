@@ -249,7 +249,7 @@ groups:
                     | pattern "<_> {<audit_log>}$"
                     | line_format "{{ printf \"{%s}\" .audit_log }}"
                     | json
-                    | event_type=~"identity.authenticate"
+                    | event_type =~ "identity.authenticate"
                     | outcome="failure"
                     [1h]
                   )
@@ -287,7 +287,7 @@ groups:
                 | line_format "{{ printf \"{%s}\" .audit_log }}"
                 | json
                 | event_type =~ "identity.authenticate"
-                | outcome = "failure"
+                | outcome =~ "failure"
                 | label_format initiator_name="{{.initiator.name}}"
                 [10m]
               )
@@ -310,7 +310,7 @@ groups:
                 | line_format "{{ printf \"{%s}\" .audit_log }}"
                 | json
                 | event_type =~ "identity.authenticate"
-                | outcome = "failure"
+                | outcome =~ "failure"
                 | label_format initiator_name="{{.initiator.name}}"
                 [10m]
               )
