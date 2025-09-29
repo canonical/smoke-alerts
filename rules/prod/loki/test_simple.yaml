@@ -1,0 +1,25 @@
+namespace: test_rules
+groups:
+  - name: test-group
+    rules:
+      - alert: TestLogVolumeHigh
+        expr: |
+          sum(rate({job=~".+"}[5m])) > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: test
+        annotations:
+          summary: "High log volume detected in test environment"
+          description: "Log rate is {{ $value }} logs per second over the last 5 minutes"
+
+      - alert: TestErrorLogsPresent
+        expr: |
+          sum(rate({job=~".+"} |~ "(?i)error|exception|fail" [5m])) > 0
+        for: 1m
+        labels:
+          severity: critical
+          service: test
+        annotations:
+          summary: "Error logs detected"
+          description: "Found {{ $value }} error logs per second in the last 5 minutes"
