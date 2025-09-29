@@ -28,7 +28,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 20
+            ) > 0.1
           labels:
             alert_type: api_failure_rate
             severity: warning
@@ -62,7 +62,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 70
+            ) > 0.1
           labels:
             alert_type: api_failure_rate
             severity: critical
@@ -99,7 +99,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 10
+            ) > 0.1
           labels:
             alert_type: authentication_failure
             service: keystone
@@ -134,7 +134,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 0.1
           labels:
             alert_type: compute_failure
             service: nova
@@ -168,7 +168,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 0.1
           labels:
             alert_type: network_failure
             service: neutron
@@ -203,7 +203,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 0.1
           labels:
             alert_type: image_failure
             service: glance
@@ -226,7 +226,7 @@ groups:
                   | line_format "{{ printf \"{%s}\" .audit_log }}"
                   | json
                   | event_type="identity.role_assignment.created"
-                  [3d]
+                  [1h]
                 )
               ) > 0
             )
@@ -268,7 +268,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 20
+            ) > 0.1
           labels:
             alert_type: security_event
             event_type: login_failure
@@ -291,7 +291,7 @@ groups:
                 | label_format initiator_name="{{.initiator.name}}"
                 [10m]
               )
-            ) >= 3
+            ) >= 0.1
           labels:
             alert_type: security_event
             event_type: multiple_login_failures
@@ -314,7 +314,7 @@ groups:
                 | label_format initiator_name="{{.initiator.name}}"
                 [10m]
               )
-            ) >= 5
+            ) >= 0.1
           labels:
             alert_type: security_event
             event_type: multiple_login_failures
