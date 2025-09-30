@@ -8,7 +8,7 @@ groups:
               (
                 sum by (filename)(
                   rate(
-                    {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -19,7 +19,7 @@ groups:
                 /
                 sum by (filename)(
                   rate(
-                    {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -79,7 +79,7 @@ groups:
               (
                 sum(
                   rate(
-                    {filename=~"/var/log/keystone/.*"}
+                    {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -90,7 +90,7 @@ groups:
                 /
                 sum(
                   rate(
-                    {filename=~"/var/log/keystone/.*"}
+                    {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -114,7 +114,7 @@ groups:
               (
                 sum(
                   rate(
-                    {filename=~"/var/log/nova/.*"}
+                    {filename=~"/var/log/(nova|apache2)/(nova*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -125,7 +125,7 @@ groups:
                 /
                 sum(
                   rate(
-                    {filename=~"/var/log/nova/.*"}
+                    {filename=~"/var/log/(nova|apache2)/(nova*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
@@ -142,6 +142,7 @@ groups:
           annotations:
             description: Nova compute service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Nova Compute API failures detected in Charmed OpenStack
+
         - alert: CharmedOpenStackNeutronAPIFailure
           expr: |-
             (
@@ -215,7 +216,7 @@ groups:
 
     - name: charmed-openstack-security-alerts
       rules:
-        - alert: CharmedOpenStackAdminAccountChanged
+        - alert: CharmedOpenstackNewRoleAssignment
           expr: |-
             (
               count(
@@ -226,17 +227,17 @@ groups:
                   | line_format "{{ printf \"{%s}\" .audit_log }}"
                   | json
                   | event_type="identity.role_assignment.created"
-                  [3d]
+                  [1h]
                 )
               ) > 0
             )
           labels:
             alert_type: security_event
-            event_type: admin_role_assignment
+            event_type: role_assignment
             severity: warning
           annotations:
-            description: New admin role assignment has been detected in Keystone. Review the change for security compliance.
-            summary: Admin role assignment detected in Charmed OpenStack
+            description: New role assignment has been detected. Review the change for security compliance.
+            summary: Role assignment detected in Charmed OpenStack
 
         - alert: CharmedOpenStackHighLoginFailureRate
           expr: |-
@@ -249,8 +250,8 @@ groups:
                     | pattern "<_> {<audit_log>}$"
                     | line_format "{{ printf \"{%s}\" .audit_log }}"
                     | json
-                    | event_type =~ "identity.authenticate"
-                    | outcome="failure"
+                    | event_type=~"identity.authenticate"
+                    | payload_outcome=~"failure"
                     [1h]
                   )
                 )
@@ -263,7 +264,7 @@ groups:
                     | line_format "{{ printf \"{%s}\" .audit_log }}"
                     | json
                     | event_type=~"identity.authenticate"
-                    | outcome=~"failure|success"
+                    | payload_outcome=~"failure|success"
                     [1h]
                   )
                 )
@@ -286,9 +287,9 @@ groups:
                 | pattern "<_> {<audit_log>}$"
                 | line_format "{{ printf \"{%s}\" .audit_log }}"
                 | json
-                | event_type =~ "identity.authenticate"
-                | outcome =~ "failure"
-                | label_format initiator_name="{{.initiator.name}}"
+                | event_type=~"identity.authenticate"
+                | payload_outcome=~"failure"
+                | label_format initiator_name="{{.payload_initiator_username}}"
                 [10m]
               )
             ) >= 3
@@ -309,9 +310,9 @@ groups:
                 | pattern "<_> {<audit_log>}$"
                 | line_format "{{ printf \"{%s}\" .audit_log }}"
                 | json
-                | event_type =~ "identity.authenticate"
-                | outcome =~ "failure"
-                | label_format initiator_name="{{.initiator.name}}"
+                | event_type=~"identity.authenticate"
+                | payload_outcome=~"failure"
+                | label_format initiator_name="{{.payload_initiator_username}}"
                 [10m]
               )
             ) >= 5
