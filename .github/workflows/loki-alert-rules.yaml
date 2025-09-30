@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize, reopened]
     branches: [main]
     paths:
-      - 'rules/prod/loki/*.yaml'
+      - 'rules/prod/loki/*'
 
 jobs:
   loki-alert-rules:
