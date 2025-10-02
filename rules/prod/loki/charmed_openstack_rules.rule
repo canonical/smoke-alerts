@@ -1,0 +1,326 @@
+namespace: charmed_openstack_rules
+groups:
+    - name: charmed-openstack-api-failures
+      rules:
+        - alert: CharmedOpenStackAPIFailureRateHigh
+          expr: |-
+            (
+              (
+                sum by (filename)(
+                  rate(
+                    {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [1h]
+                  )
+                )
+                /
+                sum by (filename)(
+                  rate(
+                    {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [1h]
+                  )
+                )
+              ) * 100
+            ) > 20
+          labels:
+            alert_type: api_failure_rate
+            severity: warning
+          annotations:
+            description: API failure rate for {{ $labels.filename }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
+            summary: High API failure rate detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackAPIFailureRateCritical
+          expr: |-
+            (
+              (
+                sum by (filename)(
+                  rate(
+                    {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [1h]
+                  )
+                )
+                /
+                sum by (filename)(
+                  rate(
+                    {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [1h]
+                  )
+                )
+              ) * 100
+            ) > 70
+          labels:
+            alert_type: api_failure_rate
+            severity: critical
+          annotations:
+            description: API failure rate for {{ $labels.filename }} is {{ $value }}% over the last hour, exceeding the 70% critical threshold.
+            summary: Critical API failure rate detected in Charmed OpenStack
+
+
+    - name: charmed-openstack-service
+      rules:
+        - alert: CharmedOpenStackKeystoneAPIFailure
+          expr: |-
+            (
+              (
+                sum(
+                  rate(
+                    {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [5m]
+                  )
+                )
+                /
+                sum(
+                  rate(
+                    {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [5m]
+                  )
+                )
+              ) * 100
+            ) > 10
+          labels:
+            alert_type: authentication_failure
+            service: keystone
+            severity: warning
+          annotations:
+            description: Keystone service is experiencing {{ $value }}% failure rate over the last 5 minutes.
+            summary: Keystone API failures detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackNovaAPIFailure
+          expr: |-
+            (
+              (
+                sum(
+                  rate(
+                    {filename=~"/var/log/(nova|apache2)/(nova*).*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [10m]
+                  )
+                )
+                /
+                sum(
+                  rate(
+                    {filename=~"/var/log/(nova|apache2)/(nova*).*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [10m]
+                  )
+                )
+              ) * 100
+            ) > 15
+          labels:
+            alert_type: compute_failure
+            service: nova
+            severity: warning
+          annotations:
+            description: Nova compute service is experiencing {{ $value }}% failure rate over the last 10 minutes.
+            summary: Nova Compute API failures detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackNeutronAPIFailure
+          expr: |-
+            (
+              (
+                sum(
+                  rate(
+                    {filename=~"/var/log/neutron/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [10m]
+                  )
+                )
+                /
+                sum(
+                  rate(
+                    {filename=~"/var/log/neutron/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [10m]
+                  )
+                )
+              ) * 100
+            ) > 15
+          labels:
+            alert_type: network_failure
+            service: neutron
+            severity: warning
+          annotations:
+            description: Neutron service is experiencing {{ $value }}% failure rate over the last 10 minutes.
+            summary: Neutron Network API failures detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackGlanceAPIFailure
+          expr: |-
+            (
+              (
+                sum(
+                  rate(
+                    {filename=~"/var/log/glance/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(4|5).."
+                    [10m]
+                  )
+                )
+                /
+                sum(
+                  rate(
+                    {filename=~"/var/log/glance/.*"}
+                    | pattern "<_> \"<_>\" <status_code_a> <_>"
+                    | pattern "<_> \"<_>\" status: <status_code_b> <_>"
+                    | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
+                    | status_code=~"(1|2|3|4|5).."
+                    [10m]
+                  )
+                )
+              ) * 100
+            ) > 15
+          labels:
+            alert_type: image_failure
+            service: glance
+            severity: warning
+          annotations:
+            description: Glance image service is experiencing {{ $value }}% failure rate over the last 10 minutes.
+            summary: Glance Image API failures detected in Charmed OpenStack
+
+
+    - name: charmed-openstack-security-alerts
+      rules:
+        - alert: CharmedOpenstackNewRoleAssignment
+          expr: |-
+            (
+              count(
+                rate(
+                  {filename=~"/var/log/keystone/.*.log"}
+                  |= "event_type"
+                  | pattern "<_> {<audit_log>}$"
+                  | line_format "{{ printf \"{%s}\" .audit_log }}"
+                  | json
+                  | event_type="identity.role_assignment.created"
+                  [1h]
+                )
+              ) > 0
+            )
+          labels:
+            alert_type: security_event
+            event_type: role_assignment
+            severity: warning
+          annotations:
+            description: New role assignment has been detected. Review the change for security compliance.
+            summary: Role assignment detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackHighLoginFailureRate
+          expr: |-
+            (
+              (
+                count(
+                  rate(
+                    {filename=~"/var/log/keystone/.*.log"}
+                    |= "event_type"
+                    | pattern "<_> {<audit_log>}$"
+                    | line_format "{{ printf \"{%s}\" .audit_log }}"
+                    | json
+                    | event_type=~"identity.authenticate"
+                    | payload_outcome=~"failure"
+                    [1h]
+                  )
+                )
+                /
+                count(
+                  rate(
+                    {filename=~"/var/log/keystone/.*.log"}
+                    |= "event_type"
+                    | pattern "<_> {<audit_log>}$"
+                    | line_format "{{ printf \"{%s}\" .audit_log }}"
+                    | json
+                    | event_type=~"identity.authenticate"
+                    | payload_outcome=~"failure|success"
+                    [1h]
+                  )
+                )
+              ) * 100
+            ) > 20
+          labels:
+            alert_type: security_event
+            event_type: login_failure
+            severity: warning
+          annotations:
+            description: Login failure rate is {{ $value }}% over the last hour, indicating potential security issues or service problems.
+            summary: High login failure rate in Charmed OpenStack
+
+        - alert: CharmedOpenStackMultipleFailedLoginsWarning
+          expr: |-
+            sum by (initiator_name) (
+              count_over_time(
+                {filename=~"/var/log/keystone/.*.log"}
+                |= "event_type"
+                | pattern "<_> {<audit_log>}$"
+                | line_format "{{ printf \"{%s}\" .audit_log }}"
+                | json
+                | event_type=~"identity.authenticate"
+                | payload_outcome=~"failure"
+                | label_format initiator_name="{{.payload_initiator_username}}"
+                [10m]
+              )
+            ) >= 3
+          labels:
+            alert_type: security_event
+            event_type: multiple_login_failures
+            severity: warning
+          annotations:
+            description: User {{ $labels.initiator_name }} has {{ $value }} failed login attempts in the last 10 minutes.
+            summary: Multiple failed login attempts detected for user in Charmed OpenStack
+
+        - alert: CharmedOpenStackMultipleFailedLoginsCritical
+          expr: |-
+            sum by (initiator_name) (
+              count_over_time(
+                {filename=~"/var/log/keystone/.*.log"}
+                |= "event_type"
+                | pattern "<_> {<audit_log>}$"
+                | line_format "{{ printf \"{%s}\" .audit_log }}"
+                | json
+                | event_type=~"identity.authenticate"
+                | payload_outcome=~"failure"
+                | label_format initiator_name="{{.payload_initiator_username}}"
+                [10m]
+              )
+            ) >= 5
+          labels:
+            alert_type: security_event
+            event_type: multiple_login_failures
+            severity: critical
+          annotations:
+            description: User {{ $labels.initiator_name }} has {{ $value }} failed login attempts in the last 10 minutes.
+            summary: Multiple failed login attempts detected for user in Charmed OpenStack
+
