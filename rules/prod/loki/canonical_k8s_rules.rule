@@ -111,8 +111,6 @@ groups:
             ) != 0
           labels:
             alert_type: security_event
-            resource_type: clusterrole
-            operation: delete
             severity: warning
           annotations:
             description: K8s ClusterRole was deleted in the past 3 days. Review the change for security compliance.
