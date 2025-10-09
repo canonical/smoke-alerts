@@ -1,0 +1,386 @@
+namespace: canonical_k8s_rules
+groups:
+    - name: canonical-k8s-security-rbac
+      rules:
+        - alert: CanonicalK8sRoleCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "roles"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Role was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Role created in Canonical K8s
+
+        - alert: CanonicalK8sRoleUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "roles"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Role was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Role updated in Canonical K8s
+
+        - alert: CanonicalK8sRoleDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "roles"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Role was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Role deleted in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterroles"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ClusterRole was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRole created in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterroles"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ClusterRole was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRole updated in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterroles"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            resource_type: clusterrole
+            operation: delete
+            severity: warning
+          annotations:
+            description: K8s ClusterRole was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRole deleted in Canonical K8s
+
+        - alert: CanonicalK8sRoleBindingCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "rolebindings"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s RoleBinding was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes RoleBinding created in Canonical K8s
+
+        - alert: CanonicalK8sRoleBindingUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "rolebindings"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s RoleBinding was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes RoleBinding updated in Canonical K8s
+
+        - alert: CanonicalK8sRoleBindingDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "rolebindings"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s RoleBinding was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes RoleBinding deleted in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleBindingCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterrolebindings"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ClusterRoleBinding was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRoleBinding created in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleBindingUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterrolebindings"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ClusterRoleBinding was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRoleBinding updated in Canonical K8s
+
+        - alert: CanonicalK8sClusterRoleBindingDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "clusterrolebindings"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ClusterRoleBinding was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ClusterRoleBinding deleted in Canonical K8s
+
+        - alert: CanonicalK8sServiceAccountCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "serviceaccounts"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ServiceAccount was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ServiceAccount created in Canonical K8s
+
+        - alert: CanonicalK8sServiceAccountUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "serviceaccounts"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ServiceAccount was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ServiceAccount updated in Canonical K8s
+
+        - alert: CanonicalK8sServiceAccountDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "serviceaccounts"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s ServiceAccount was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes ServiceAccount deleted in Canonical K8s
+
+        - alert: CanonicalK8sSecretCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "secrets"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Secret was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Secret created in Canonical K8s
+
+        - alert: CanonicalK8sSecretUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "secrets"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Secret was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Secret updated in Canonical K8s
+
+        - alert: CanonicalK8sSecretDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "secrets"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s Secret was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes Secret deleted in Canonical K8s
+
+
+    - name: canonical-k8s-security-authentication
+      rules:
+        - alert: CanonicalK8sUserAccessFailuresWarning
+          expr: |-
+            sum by (user_username) (
+              count_over_time(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | responseStatus_code =~ "401|403"
+                | user_username != ""
+                [10m]
+              )
+            ) >= 3
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible credential issue, permission misconfiguration, or unauthorized access attempt.
+            summary: Multiple access failures detected for user in Canonical K8s
+
+        - alert: CanonicalK8sUserAccessFailuresCritical
+          expr: |-
+            sum by (user_username) (
+              count_over_time(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | responseStatus_code =~ "401|403"
+                | user_username != ""
+                [10m]
+              )
+            ) >= 5
+          labels:
+            alert_type: security_event
+            severity: critical
+          annotations:
+            description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible brute-force attack or privilege escalation attempt detected.
+            summary: Excessive access failures detected for user in Canonical K8s
