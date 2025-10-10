@@ -1,0 +1,26 @@
+name: Prometheus Alert Rules Validation
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - 'rules/prod/prometheus/*'
+
+jobs:
+  prometheus-alert-rules:
+    name: Prometheus Alert Rules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install prometheus snap
+        run: sudo snap install prometheus
+
+      - name: Check alert rules
+        run: |
+          promtool check rules ./rules/prod/prometheus/*
+
