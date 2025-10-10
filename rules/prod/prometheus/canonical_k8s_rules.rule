@@ -1,16 +1,4 @@
 groups:
-  - name: canonical-k8s-api-availability
-    rules:
-      - alert: CanonicalK8sAPIServerDown
-        expr: up{job=~".*apiserver.*"} == 0
-        for: 5m
-        labels:
-          alert_type: control_plane_availability
-          severity: critical
-        annotations:
-          description: K8s API server cluster {{ $labels.cluster }} has been down for more than 5 minutes.
-          summary: Kubernetes API server is down in Canonical K8s
-
   - name: canonical-k8s-api-health
     rules:
       - alert: CanonicalK8sFailedRequestRateIncreasing
