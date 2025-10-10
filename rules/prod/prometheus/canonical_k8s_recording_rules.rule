@@ -4,7 +4,7 @@ groups:
     rules:
       # Recording rule for general API failure rate (excludes core API with group="")
       # Output labels: cluster, code
-      - record: cluster_code:apiserver_request:failure_rate
+      - record: cluster_code:apiserver_request:failure_rate1h
         expr: |-
           (
             sum by (cluster, code) (
@@ -24,7 +24,7 @@ groups:
 
       # Recording rule for core API failure rate (group="")
       # Output labels: cluster, code
-      - record: cluster_code:apiserver_request_core:failure_rate
+      - record: cluster_code:apiserver_request_core:failure_rate1h
         expr: |-
           (
             sum by (cluster, code) (
