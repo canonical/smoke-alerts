@@ -2,22 +2,7 @@ groups:
   - name: canonical-k8s-api-health
     rules:
       - alert: CanonicalK8sFailedRequestRateIncreasing
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group!="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group!=""}[1h]
-              )
-            )
-            * 100
-          ) > 5
+        expr: cluster_code:apiserver_request:failure_rate > 5
         for: 5m
         labels:
           alert_type: control_plane_health
@@ -27,22 +12,7 @@ groups:
           summary: Kubernetes API failure rate increasing in Canonical K8s
 
       - alert: CanonicalK8sFailedRequestRateHigh
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group!="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group!=""}[1h]
-              )
-            )
-            * 100
-          ) > 20
+        expr: cluster_code:apiserver_request:failure_rate > 20
         for: 5m
         labels:
           alert_type: control_plane_health
@@ -52,22 +22,7 @@ groups:
           summary: High Kubernetes API failure rate in Canonical K8s
 
       - alert: CanonicalK8sFailedRequestRateCritical
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group!="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group!=""}[1h]
-              )
-            )
-            * 100
-          ) > 70
+        expr: cluster_code:apiserver_request:failure_rate > 70
         for: 5m
         labels:
           alert_type: control_plane_health
@@ -97,22 +52,7 @@ groups:
   - name: canonical-k8s-core-api-health
     rules:
       - alert: CanonicalK8sCoreAPIFailedRateIncreasing
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group=""}[1h]
-              )
-            )
-            * 100
-          ) > 5
+        expr: cluster_code:apiserver_request_core:failure_rate > 5
         for: 5m
         labels:
           alert_type: control_plane_health
@@ -122,22 +62,7 @@ groups:
           summary: Kubernetes core API failure rate increasing in Canonical K8s
 
       - alert: CanonicalK8sCoreAPIFailedRateHigh
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group=""}[1h]
-              )
-            )
-            * 100
-          ) > 20
+        expr: cluster_code:apiserver_request_core:failure_rate > 20
         for: 5m
         labels:
           alert_type: control_plane_health
@@ -147,22 +72,7 @@ groups:
           summary: High Kubernetes core API failure rate in Canonical K8s
 
       - alert: CanonicalK8sCoreAPIFailedRateCritical
-        expr: |-
-          (
-            sum by (cluster, code) (
-              rate(
-                apiserver_request_total{group="", code=~"[45].."}[1h]
-              )
-            )
-            /
-            ignoring (code) group_left
-            sum by (cluster) (
-              rate(
-                apiserver_request_total{group=""}[1h]
-              )
-            )
-            * 100
-          ) > 70
+        expr: cluster_code:apiserver_request_core:failure_rate > 70
         for: 5m
         labels:
           alert_type: control_plane_health

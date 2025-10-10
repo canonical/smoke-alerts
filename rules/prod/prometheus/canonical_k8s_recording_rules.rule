@@ -1,0 +1,43 @@
+groups:
+  - name: canonical-k8s-api-failure-rates
+    interval: 30s
+    rules:
+      # Recording rule for general API failure rate (excludes core API with group="")
+      # Output labels: cluster, code
+      - record: cluster_code:apiserver_request:failure_rate
+        expr: |-
+          (
+            sum by (cluster, code) (
+              rate(
+                apiserver_request_total{group!="", code=~"[45].."}[1h]
+              )
+            )
+            /
+            ignoring (code) group_left
+            sum by (cluster) (
+              rate(
+                apiserver_request_total{group!=""}[1h]
+              )
+            )
+            * 100
+          )
+
+      # Recording rule for core API failure rate (group="")
+      # Output labels: cluster, code
+      - record: cluster_code:apiserver_request_core:failure_rate
+        expr: |-
+          (
+            sum by (cluster, code) (
+              rate(
+                apiserver_request_total{group="", code=~"[45].."}[1h]
+              )
+            )
+            /
+            ignoring (code) group_left
+            sum by (cluster) (
+              rate(
+                apiserver_request_total{group=""}[1h]
+              )
+            )
+            * 100
+          )
