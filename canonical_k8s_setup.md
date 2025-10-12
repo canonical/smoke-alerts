@@ -6,18 +6,18 @@ This guide covers a sample setup of audit logging for a Canonical K8s deployment
 
 Canonical K8s requires manual configuration to enable audit logging. Once enabled, audit logs capture authentication, authorization, and RBAC events for security monitoring.
 
-**Reference:** [How to harden your Canonical Kubernetes cluster](https://ubuntu.com/blog/how-to-harden-your-canonical-kubernetes-cluster)
+**Reference:** [How to harden your Canonical Kubernetes cluster](https://documentation.ubuntu.com/canonical-kubernetes/latest/snap/howto/security/hardening/)
 
 ## Prerequisites
 
-- Canonical K8s deployment via Juju
-- COS deployment
+- [Canonical K8s](https://documentation.ubuntu.com/canonical-kubernetes/latest/) deployment via Juju
+- [COS](https://documentation.ubuntu.com/observability/latest/) deployment
 
 ## Setup Steps
 
 ### 1. Create Audit Policy File
 
-Create the audit policy file on each control plane node:
+Given the `k8s` charm that includes control-plane services for administering the cluster is deployed with the name `k8s-control-plane`, create the audit policy file on each control plane node:
 
 ```bash
 # Create the audit policy directory
@@ -45,6 +45,8 @@ rules:
 EOL'
 ```
 
+**Reference:** [Kubernetes Auditing](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/)
+
 ### 2. Configure Kube-apiserver
 
 Configure the kube-apiserver to use the audit policy:
@@ -59,7 +61,11 @@ juju exec --application k8s-control-plane -- sudo sh -c 'cat >>/var/snap/k8s/com
 EOL'
 ```
 
-**Note:** You will need to restart the kube-apiserver service for changes to take effect.
+**Note:** You will need to restart the `kube-apiserver` service for changes to take effect. The following command restarts the service on each control plane node:
+
+```bash
+juju exec --application k8s-control-plane -- sudo systemctl restart snap.k8s.kube-apiserver.service
+```
 
 ### 3. Deploy and Configure Grafana Agent
 

@@ -8,8 +8,8 @@ Charmed OpenStack supports audit logging through middleware configuration. This 
 
 ## Prerequisites
 
-- Charmed OpenStack deployment
-- COS deployment
+- [Charmed OpenStack](https://docs.openstack.org/project-deploy-guide/charm-deployment-guide/latest/index.html) deployment
+- [COS](https://documentation.ubuntu.com/observability/latest/) deployment
 
 ## Setup Steps
 
