@@ -118,6 +118,30 @@ Alert will trigger if ServiceAccount creation events are detected in the past 3 
 **Note:** Similar log patterns apply for:
 - Role, RoleBinding, Secret operations (create/update/delete)
 
+### Workload Change Detection Alerts
+
+#### CanonicalK8sDaemonSetCreated
+**Example log line:**
+
+In `/var/log/kubernetes/audit.log`:
+```json
+{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"RequestResponse","auditID":"a1b2c3d4-e5f6-7890-abcd-ef1234567890","stage":"ResponseComplete","requestURI":"/apis/apps/v1/namespaces/default/daemonsets?fieldManager=kubectl-create","verb":"create","user":{"username":"kubernetes-admin","groups":["system:masters","system:authenticated"]},"sourceIPs":["127.0.0.1"],"userAgent":"kubectl/v1.33.4 (linux/amd64) kubernetes/74cdb42","objectRef":{"resource":"daemonsets","namespace":"default","name":"test-daemonset","apiGroup":"apps","apiVersion":"v1"},"responseStatus":{"metadata":{},"code":201},"requestReceivedTimestamp":"2025-10-13T10:00:00.000000Z","stageTimestamp":"2025-10-13T10:00:00.100000Z"}
+```
+
+Alert will trigger if DaemonSet creation events are detected in the past 3 days.
+
+#### CanonicalK8sDaemonSetUpdated
+**Example log line:**
+
+In `/var/log/kubernetes/audit.log`:
+```json
+{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"RequestResponse","auditID":"b2c3d4e5-f6a7-8901-bcde-f12345678901","stage":"ResponseComplete","requestURI":"/apis/apps/v1/namespaces/kube-system/daemonsets/node-exporter","verb":"update","user":{"username":"kubernetes-admin","groups":["system:masters","system:authenticated"]},"sourceIPs":["127.0.0.1"],"userAgent":"kubectl/v1.33.4 (linux/amd64) kubernetes/74cdb42","objectRef":{"resource":"daemonsets","namespace":"kube-system","name":"node-exporter","apiGroup":"apps","apiVersion":"v1"},"responseStatus":{"metadata":{},"code":200},"requestReceivedTimestamp":"2025-10-13T11:00:00.000000Z","stageTimestamp":"2025-10-13T11:00:00.100000Z"}
+```
+
+Alert will trigger if DaemonSet update events are detected in the past 3 days.
+
+**Note:** Similar log patterns apply for DaemonSet deletion operations.
+
 ### Access Failure Detection Alerts
 
 #### CanonicalK8sUserAccessFailures*

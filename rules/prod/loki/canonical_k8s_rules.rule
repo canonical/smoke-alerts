@@ -344,6 +344,63 @@ groups:
             description: K8s Secret was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Secret deleted in Canonical K8s
 
+        - alert: CanonicalK8sDaemonSetCreated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "daemonsets"
+                | verb = "create"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s DaemonSet was created in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes DaemonSet created in Canonical K8s
+
+        - alert: CanonicalK8sDaemonSetUpdated
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "daemonsets"
+                | verb = "update"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s DaemonSet was updated in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes DaemonSet updated in Canonical K8s
+
+        - alert: CanonicalK8sDaemonSetDeleted
+          expr: |-
+            count(
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | objectRef_resource = "daemonsets"
+                | verb = "delete"
+                | responseStatus_code < 300
+                [3d]
+              )
+            ) != 0
+          labels:
+            alert_type: security_event
+            severity: warning
+          annotations:
+            description: K8s DaemonSet was deleted in the past 3 days. Review the change for security compliance.
+            summary: Kubernetes DaemonSet deleted in Canonical K8s
+
 
     - name: canonical-k8s-security-authentication
       rules:

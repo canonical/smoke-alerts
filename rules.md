@@ -53,5 +53,8 @@ An overview of all alert rules.
 | **CanonicalK8sSecretCreated** | Secret created in past 3 days | Warning |
 | **CanonicalK8sSecretUpdated** | Secret updated in past 3 days | Warning |
 | **CanonicalK8sSecretDeleted** | Secret deleted in past 3 days | Warning |
+| **CanonicalK8sDaemonSetCreated** | DaemonSet created in past 3 days | Warning |
+| **CanonicalK8sDaemonSetUpdated** | DaemonSet updated in past 3 days | Warning |
+| **CanonicalK8sDaemonSetDeleted** | DaemonSet deleted in past 3 days | Warning |
 | **CanonicalK8sUserAccessFailuresWarning** | User has ≥3 access failures in 10 minutes | Warning |
 | **CanonicalK8sUserAccessFailuresCritical** | User has ≥5 access failures in 10 minutes | Critical |
