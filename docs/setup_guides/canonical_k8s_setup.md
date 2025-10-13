@@ -4,7 +4,7 @@ This guide covers a sample setup of audit logging for a Canonical K8s deployment
 
 ## Overview
 
-Canonical K8s requires manual configuration to enable audit logging. Once enabled, audit logs capture authentication, authorization, and RBAC events for security monitoring.
+Canonical K8s requires manual configuration to enable audit logging. Once enabled, audit logs capture authentication, authorization, RBAC events and DaemonSet operations for security monitoring.
 
 **Reference:** [How to harden your Canonical Kubernetes cluster](https://documentation.ubuntu.com/canonical-kubernetes/latest/snap/howto/security/hardening/)
 
@@ -42,6 +42,12 @@ rules:
         resources:
             - group: ""
                 resources: ["secrets"]
+    # Log DaemonSet operations
+    - level: RequestResponse
+        verbs: ["create", "update", "delete"]
+        resources:
+            - group: "apps"
+                resources: ["daemonsets"]
 EOL'
 ```
 

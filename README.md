@@ -10,5 +10,7 @@ Contains "smoke-alarm" rules for these use cases:
 This repository should be referenced by the [cos-configuration-k8s](https://charmhub.io/cos-configuration-k8s) charm to forward alert rules to Canonical Observability Stack (COS).
 
 See audit logging setup guides for each use case:
-- [Charmed OpenStack](charmed_openstack_setup.md)
-- [Canonical K8s](canonical_k8s_setup.md)
+- [Charmed OpenStack](docs/setup_guides/charmed_openstack_setup.md)
+- [Canonical K8s](docs/setup_guides/canonical_k8s_setup.md)
+
+See all alert rules and example log references in [rules.md](docs/rules.md) and [references.md](docs/references.md).

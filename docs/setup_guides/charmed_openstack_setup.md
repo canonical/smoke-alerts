@@ -55,7 +55,18 @@ juju config neutron-api audit-middleware=true
 juju config heat audit-middleware=true
 ```
 
-**Reference:** [Nova Cloud Controller charm documentation](https://charmhub.io/nova-cloud-controller)
+**Note about Keystone:** Keystone does not have the `audit-middleware` configuration option because it has built-in [CADF](https://www.dmtf.org/standards/cadf) (Cloud Auditing Data Federation) audit notification support integrated directly into the service since the Kilo release. Since the Ocata release, Keystone's `notification_format` defaults to `cadf`, meaning audit events are automatically generated without additional middleware configuration.
+
+**References:**
+- [Nova Cloud Controller charm documentation](https://charmhub.io/nova-cloud-controller)
+- [Cinder charm documentation](https://charmhub.io/cinder)
+- [Glance charm documentation](https://charmhub.io/glance)
+- [Neutron API charm documentation](https://charmhub.io/neutron-api)
+- [Heat charm documentation](https://charmhub.io/heat)
+- [Keystone Event Notifications](https://docs.openstack.org/keystone/latest/admin/event_notifications.html)
+- [Keystone CADF Everywhere Blueprint (Kilo)](https://blueprints.launchpad.net/keystone/+spec/cadf-everywhere)
+- [Keystone Ocata release notes](https://docs.openstack.org/releasenotes/keystone/ocata.html)
+- [Charm specs: Add audit middleware](https://opendev.org/openstack/charm-specs/commit/958a432bca211e7384589fd58a916beb790d6a36)
 
 ### 4. Configure COS Alert Rules
 
