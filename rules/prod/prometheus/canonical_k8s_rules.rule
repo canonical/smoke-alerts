@@ -1,0 +1,99 @@
+groups:
+  - name: canonical-k8s-api-health
+    rules:
+      - alert: CanonicalK8sFailedRequestRateIncreasing
+        expr: cluster_code:apiserver_request:failure_rate1h > 5
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: warning
+        annotations:
+          description: K8s API failure rate (4xx/5xx) is {{ $value }}% (1h rate), exceeding 5% for 5+ minutes. This excludes core API (group="").
+          summary: Kubernetes API failure rate increasing in Canonical K8s
+
+      - alert: CanonicalK8sFailedRequestRateHigh
+        expr: cluster_code:apiserver_request:failure_rate1h > 20
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: warning
+        annotations:
+          description: K8s API failure rate (4xx/5xx) is {{ $value }}% (1h rate) with status code {{ $labels.code }}, exceeding 20% for 5+ minutes. This excludes core API (group="").
+          summary: High Kubernetes API failure rate in Canonical K8s
+
+      - alert: CanonicalK8sFailedRequestRateCritical
+        expr: cluster_code:apiserver_request:failure_rate1h > 70
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: critical
+        annotations:
+          description: K8s API failure rate (4xx/5xx) is {{ $value }}% (1h rate) with status code {{ $labels.code }}, exceeding 70% for 5+ minutes. This excludes core API (group="").
+          summary: Critical Kubernetes API failure rate in Canonical K8s
+
+      - alert: CanonicalK8sAPIServerHighLatency
+        expr: |-
+          histogram_quantile(0.99,
+            sum by (cluster, verb, le) (
+              rate(
+                apiserver_request_duration_seconds_bucket{group!="", verb!~"WATCH"}[5m]
+              )
+            )
+          ) > 1
+        for: 10m
+        labels:
+          alert_type: control_plane_performance
+          severity: warning
+        annotations:
+          description: K8s API server 99th percentile latency for {{ $labels.verb }} requests is {{ $value }}s, exceeding 1 second for more than 10 minutes. This excludes core API (group="").
+          summary: High API server latency detected in Canonical K8s
+
+
+  - name: canonical-k8s-core-api-health
+    rules:
+      - alert: CanonicalK8sCoreAPIFailedRateIncreasing
+        expr: cluster_code:apiserver_request_core:failure_rate1h > 5
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: warning
+        annotations:
+          description: K8s core API (group="") failure rate is {{ $value }}% (1h rate) with status code {{ $labels.code }}, exceeding 5% for 5+ minutes.
+          summary: Kubernetes core API failure rate increasing in Canonical K8s
+
+      - alert: CanonicalK8sCoreAPIFailedRateHigh
+        expr: cluster_code:apiserver_request_core:failure_rate1h > 20
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: warning
+        annotations:
+          description: K8s core API (group="") failure rate is {{ $value }}% (1h rate) with status code {{ $labels.code }}, exceeding 20% for 5+ minutes.
+          summary: High Kubernetes core API failure rate in Canonical K8s
+
+      - alert: CanonicalK8sCoreAPIFailedRateCritical
+        expr: cluster_code:apiserver_request_core:failure_rate1h > 70
+        for: 5m
+        labels:
+          alert_type: control_plane_health
+          severity: critical
+        annotations:
+          description: K8s core API (group="") failure rate is {{ $value }}% (1h rate) with status code {{ $labels.code }}, exceeding 70% for 5+ minutes.
+          summary: Critical Kubernetes core API failure rate in Canonical K8s
+
+      - alert: CanonicalK8sCoreAPIServerHighLatency
+        expr: |-
+          histogram_quantile(0.99,
+            sum by (cluster, verb, le) (
+              rate(
+                apiserver_request_duration_seconds_bucket{group="", verb!~"WATCH"}[5m]
+              )
+            )
+          ) > 1
+        for: 10m
+        labels:
+          alert_type: control_plane_performance
+          severity: warning
+        annotations:
+          description: K8s core API server 99th percentile latency for {{ $labels.verb }} requests is {{ $value }}s, exceeding 1 second for more than 10 minutes.
+          summary: High core API server latency detected in Canonical K8s
