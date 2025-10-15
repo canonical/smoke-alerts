@@ -8,7 +8,7 @@ An overview of all alert rules.
 > **Note on Metrics Source:**
 > Prometheus rules use metrics from the [OpenStack Exporter](https://github.com/openstack-exporter/openstack-exporter).
 >
-> **Important:** The OpenStack Exporter does not currently expose Neutron quota metrics. As a workaround, Neutron network quotas are **hardcoded** in [charmed_openstack_recording_rules.yaml](../rules/prod/prometheus/charmed_openstack_recording_rules.yaml) file as recording rules. These must be manually updated depending on your OpenStack deployment's quota settings.
+> **Important:** The OpenStack Exporter does not currently expose Neutron quota metrics. As a workaround, Neutron network quotas are **hardcoded** in [charmed_openstack_recording_rules.rule](../rules/prod/prometheus/charmed_openstack_recording_rules.rule) file as recording rules. These must be manually updated depending on your OpenStack deployment's quota settings.
 >
 > To verify the actual OpenStack network quotas:
 > ```bash

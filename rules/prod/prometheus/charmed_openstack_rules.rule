@@ -16,7 +16,7 @@ groups:
 
       - alert: CharmedOpenStackSubnetIPExhausted
         expr: |
-          (openstack_neutron_network_ip_availabilities_total - openstack_neutron_network_ip_availabilities_used) == 0
+          (openstack_neutron_network_ip_availabilities_total - openstack_neutron_network_ip_availabilities_used) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -41,7 +41,7 @@ groups:
 
       - alert: CharmedOpenStackSubnetPoolExhausted
         expr: |
-          (openstack_neutron_subnets_free == 0)
+          (openstack_neutron_subnets_free <= 0)
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -66,7 +66,7 @@ groups:
 
       - alert: CharmedOpenStackNetworkQuotaExhausted
         expr: |
-          (openstack_neutron_quota:networks:max - openstack_neutron_networks) == 0
+          (openstack_neutron_quota:networks:max - openstack_neutron_networks) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -90,7 +90,7 @@ groups:
 
       - alert: CharmedOpenStackPortQuotaExhausted
         expr: |
-          (openstack_neutron_quota:ports:max - openstack_neutron_ports) == 0
+          (openstack_neutron_quota:ports:max - openstack_neutron_ports) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -114,7 +114,7 @@ groups:
 
       - alert: CharmedOpenStackRouterQuotaExhausted
         expr: |
-          (openstack_neutron_quota:routers:max - openstack_neutron_routers) == 0
+          (openstack_neutron_quota:routers:max - openstack_neutron_routers) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -138,7 +138,7 @@ groups:
 
       - alert: CharmedOpenStackFloatingIPQuotaExhausted
         expr: |
-          (openstack_neutron_quota:floating_ips:max - openstack_neutron_floating_ips) == 0
+          (openstack_neutron_quota:floating_ips:max - openstack_neutron_floating_ips) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -162,7 +162,7 @@ groups:
 
       - alert: CharmedOpenStackSubnetQuotaExhausted
         expr: |
-          (openstack_neutron_quota:subnets:max - openstack_neutron_subnets) == 0
+          (openstack_neutron_quota:subnets:max - openstack_neutron_subnets) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
@@ -186,7 +186,7 @@ groups:
 
       - alert: CharmedOpenStackSecurityGroupQuotaExhausted
         expr: |
-          (openstack_neutron_quota:security_groups:max - openstack_neutron_security_groups) == 0
+          (openstack_neutron_quota:security_groups:max - openstack_neutron_security_groups) <= 0
         for: 5m
         labels:
           alert_type: network_quota_exhaustion
