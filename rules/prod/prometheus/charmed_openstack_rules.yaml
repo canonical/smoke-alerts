@@ -1,0 +1,197 @@
+groups:
+  - name: charmed_openstack_network_quota
+    rules:
+      # Subnet IP Availability Alerts
+      - alert: CharmedOpenStackSubnetIPExhaustWarning
+        expr: |
+          (openstack_neutron_network_ip_availabilities_used / openstack_neutron_network_ip_availabilities_total) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Subnet {{ $labels.subnet_name }} ({{ $labels.cidr }}) in network {{ $labels.network_name }} is using {{ $value | humanize }}% of available IPs"
+          summary: "Neutron subnet IP addresses critically low in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSubnetIPExhausted
+        expr: |
+          (openstack_neutron_network_ip_availabilities_total - openstack_neutron_network_ip_availabilities_used) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          severity: critical
+          service: neutron
+        annotations:
+          description: "Subnet {{ $labels.subnet_name }} ({{ $labels.cidr }}) in network {{ $labels.network_name }} has exhausted all available IPs"
+          summary: "Neutron subnet IP addresses fully exhausted in Charmed OpenStack"
+
+      # Subnet Pool Alerts (only applicable if subnet pools are used)
+      - alert: CharmedOpenStackSubnetPoolExhaustWarning
+        expr: |
+          (openstack_neutron_subnets_used / openstack_neutron_subnets_total) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          severity: warning
+          service: neutron
+        annotations:
+          description: "Pool {{ $labels.subnet_pool_name }} has allocated {{ $value | humanize }}% of available /{{ $labels.prefix_length }} subnets"
+          summary: "Neutron subnet pool approaching exhaustion in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSubnetPoolExhausted
+        expr: |
+          (openstack_neutron_subnets_free == 0)
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          severity: critical
+          service: neutron
+        annotations:
+          description: "Cannot allocate more /{{ $labels.prefix_length }} subnets from pool {{ $labels.subnet_pool_name }}"
+          summary: "Neutron subnet pool exhausted in Charmed OpenStack"
+
+      # Quota Usage Alerts
+      - alert: CharmedOpenStackNetworkQuotaWarning
+        expr: |
+          (openstack_neutron_networks / openstack_neutron_quota:networks:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Network quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron network quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackNetworkQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:networks:max - openstack_neutron_networks) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available networks"
+          summary: "Neutron network quota usage critically high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackPortQuotaWarning
+        expr: |
+          (openstack_neutron_ports / openstack_neutron_quota:ports:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Port quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron port quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackPortQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:ports:max - openstack_neutron_ports) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available ports"
+          summary: "Neutron port quota usage critically high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackRouterQuotaWarning
+        expr: |
+          (openstack_neutron_routers / openstack_neutron_quota:routers:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Router quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron router quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackRouterQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:routers:max - openstack_neutron_routers) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available routers"
+          summary: "Neutron router quota usage critically high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackFloatingIPQuotaWarning
+        expr: |
+          (openstack_neutron_floating_ips / openstack_neutron_quota:floating_ips:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Floating IP quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron floating IP quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackFloatingIPQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:floating_ips:max - openstack_neutron_floating_ips) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available floating IPs"
+          summary: "Neutron floating IP quota usage critically high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSubnetQuotaWarning
+        expr: |
+          (openstack_neutron_subnets / openstack_neutron_quota:subnets:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Subnet quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron subnet quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSubnetQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:subnets:max - openstack_neutron_subnets) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available subnets"
+          summary: "Neutron subnet quota usage critically high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSecurityGroupQuotaWarning
+        expr: |
+          (openstack_neutron_security_groups / openstack_neutron_quota:security_groups:max) * 100 > 90
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: warning
+        annotations:
+          description: "Security group quota usage is at {{ $value | humanize }}%"
+          summary: "Neutron security group quota usage high in Charmed OpenStack"
+
+      - alert: CharmedOpenStackSecurityGroupQuotaExhausted
+        expr: |
+          (openstack_neutron_quota:security_groups:max - openstack_neutron_security_groups) == 0
+        for: 5m
+        labels:
+          alert_type: network_quota_exhaustion
+          service: neutron
+          severity: critical
+        annotations:
+          description: "Exhausted all available security groups"
+          summary: "Neutron security group quota usage critically high in Charmed OpenStack"

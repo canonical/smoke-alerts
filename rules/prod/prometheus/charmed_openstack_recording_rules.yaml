@@ -1,0 +1,25 @@
+# Recording rules for OpenStack Neutron quotas
+# Currently there are no Neutron quota metrics from OpenStack Exporter (https://github.com/openstack-exporter/openstack-exporter)
+# Therefore, hardcoded quota metrics are defined here for easier updates and maintenance
+
+groups:
+  - name: openstack_neutron_quota_config
+    interval: 1d
+    rules:
+      - record: openstack_neutron_quota:networks:max
+        expr: 10
+
+      - record: openstack_neutron_quota:ports:max
+        expr: 50
+
+      - record: openstack_neutron_quota:routers:max
+        expr: 10
+
+      - record: openstack_neutron_quota:floating_ips:max
+        expr: 50
+
+      - record: openstack_neutron_quota:subnets:max
+        expr: 10
+
+      - record: openstack_neutron_quota:security_groups:max
+        expr: 10
