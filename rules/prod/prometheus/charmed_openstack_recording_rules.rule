@@ -5,21 +5,22 @@
 groups:
   - name: openstack_neutron_quota_config
     interval: 1d
+    # Although the expression are constants, they should be expressed as time-series to be queriable
     rules:
       - record: openstack_neutron_quota:networks:max
-        expr: 10
+        expr: 0 * openstack_neutron_networks + 10
 
       - record: openstack_neutron_quota:ports:max
-        expr: 50
+        expr: 0 * openstack_neutron_ports + 50
 
       - record: openstack_neutron_quota:routers:max
-        expr: 10
+        expr: 0 * openstack_neutron_routers + 10
 
       - record: openstack_neutron_quota:floating_ips:max
-        expr: 50
+        expr: 0 * openstack_neutron_floating_ips + 50
 
       - record: openstack_neutron_quota:subnets:max
-        expr: 10
+        expr: 0 * openstack_neutron_subnets + 10
 
       - record: openstack_neutron_quota:security_groups:max
-        expr: 10
+        expr: 0 * openstack_neutron_security_groups + 10
