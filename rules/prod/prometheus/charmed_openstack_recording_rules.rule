@@ -4,7 +4,7 @@
 
 groups:
   - name: openstack_neutron_quota_config
-    interval: 1d
+    interval: 1m
     # Although the expression are constants, they should be expressed as time-series to be queriable
     rules:
       - record: openstack_neutron_quota:networks:max
