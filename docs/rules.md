@@ -3,6 +3,38 @@ An overview of all alert rules.
 
 ## Charmed OpenStack Alert Rules
 
+### Prometheus Alerts
+
+> **Note on Metrics Source:**
+> Prometheus rules use metrics from the [OpenStack Exporter](https://github.com/openstack-exporter/openstack-exporter).
+>
+> **Important:** The OpenStack Exporter does not currently expose Neutron quota metrics. As a workaround, Neutron network quotas are **hardcoded** in [charmed_openstack_recording_rules.rule](../rules/prod/prometheus/charmed_openstack_recording_rules.rule) file as recording rules. These must be manually updated depending on your OpenStack deployment's quota settings.
+>
+> To verify the actual OpenStack network quotas:
+> ```bash
+> openstack quota show --network <project-id>
+> ```
+
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CharmedOpenStackSubnetIPExhaustWarning** | Subnet IP usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackSubnetIPExhausted** | All IPs in subnet exhausted for 5 minutes | Critical |
+| **CharmedOpenStackSubnetPoolExhaustWarning** | >90% of allocatable subnets (of a specific prefix length) used from subnet pool for 5 minutes | Warning |
+| **CharmedOpenStackSubnetPoolExhausted** | All allocatable subnets (of a specific prefix length) exhausted in subnet pool for 5 minutes | Critical |
+| **CharmedOpenStackNetworkQuotaWarning** | Network quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackNetworkQuotaExhausted** | Network quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackPortQuotaWarning** | Port quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackPortQuotaExhausted** | Port quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackRouterQuotaWarning** | Router quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackRouterQuotaExhausted** | Router quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackFloatingIPQuotaWarning** | Floating IP quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackFloatingIPQuotaExhausted** | Floating IP quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackSubnetQuotaWarning** | Subnet quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackSubnetQuotaExhausted** | Subnet quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackSecurityGroupQuotaWarning** | Security group quota usage >90% for 5 minutes | Warning |
+| **CharmedOpenStackSecurityGroupQuotaExhausted** | Security group quota fully exhausted for 5 minutes | Critical |
+
+### Loki Alerts
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
 | **CharmedOpenStackAPIFailureRateHigh** | API failure rate >20% across all services over 1 hour | Warning |
