@@ -38,6 +38,42 @@ groups:
         description: Ceph API failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
         summary: High Ceph API failure rate detected
 
+    - alert: CephAPIFailureRateCritical
+      expr: |-
+        (
+          (
+            sum by (juju_model, juju_application, juju_unit)(
+              rate(
+                {filename=~"/var/log/ceph/ceph-mgr.*"}
+                |= "[dashboard INFO request]"
+                != "/api/auth"
+                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | status_code=~"(4|5).."
+                [1h]
+              )
+            )
+            /
+            sum by (juju_model, juju_application, juju_unit)(
+              rate(
+                {filename=~"/var/log/ceph/ceph-mgr.*"}
+                |= "[dashboard INFO request]"
+                != "/api/auth"
+                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | status_code=~"(1|2|3|4|5).."
+                [1h]
+              )
+            )
+          ) * 100
+        ) > 70
+      for: 5m
+      labels:
+        alert_type: api_failure_rate
+        service: ceph-dashboard
+        severity: critical
+      annotations:
+        description: Ceph API failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 70% threshold.
+        summary: Critical Ceph API failure rate detected
+
     - alert: CephAuthFailureRateHigh
       expr: |-
         (
@@ -73,3 +109,39 @@ groups:
       annotations:
         description: Ceph authentication failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
         summary: High Ceph authentication failure rate detected
+
+    - alert: CephAuthFailureRateCritical
+      expr: |-
+        (
+          (
+            sum by (juju_model, juju_application, juju_unit)(
+              rate(
+                {filename=~"/var/log/ceph/ceph-mgr.*"}
+                |= "[dashboard INFO request]"
+                |= "/api/auth"
+                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | status_code=~"(4|5).."
+                [1h]
+              )
+            )
+            /
+            sum by (juju_model, juju_application, juju_unit)(
+              rate(
+                {filename=~"/var/log/ceph/ceph-mgr.*"}
+                |= "[dashboard INFO request]"
+                |= "/api/auth"
+                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | status_code=~"(1|2|3|4|5).."
+                [1h]
+              )
+            )
+          ) * 100
+        ) > 70
+      for: 5m
+      labels:
+        alert_type: auth_failure_rate
+        service: ceph-dashboard
+        severity: critical
+      annotations:
+        description: Ceph authentication failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 70% threshold.
+        summary: Critical Ceph authentication failure rate detected
