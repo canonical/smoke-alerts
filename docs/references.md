@@ -313,22 +313,22 @@ Alert will trigger if >3 security audit events (FAILED_LOGIN, MISSING_PRIVILEGES
 
 These log lines are from Ceph Manager logs indicating Ceph API failures (HTTP status codes 4xx or 5xx).
 
-### CephAPIFailureRateHigh
+### CephAPIFailureRate*
 **Example log line:**
 
 In `/var/log/ceph/ceph-mgr.*.log`:
 ```
 2026-01-09T02:18:38.259+0000 7f7b3c7e8640  0 [dashboard INFO request] [::ffff:10.149.54.71:53300] [GET] [404] [0.007s] [admin] [513.0B] /api/random
 ```
-Alert triggers if API failure rate exceeds 20% over 1 hour (excludes /api/auth endpoint).
+Alert triggers if API failure rate exceeds threshold over 1 hour (excludes /api/auth endpoint): >20% for Warning, >70% for Critical.
 
-### CephAuthFailureRateHigh
+### CephAuthFailureRate*
 **Example log line:**
 
 In `/var/log/ceph/ceph-mgr.*.log`:
 ```
 2026-01-09T01:06:40.013+0000 7f7b3f7ee640  0 [dashboard INFO request] [::ffff:10.149.54.71:55826] [POST] [400] [0.150s] [85.0B] [0f83d360-51db-4bad-aa44-0269b71aef10] /api/auth
 ```
-Alert triggers if authentication failure rate exceeds 20% over 1 hour.
+Alert triggers if authentication failure rate exceeds threshold over 1 hour: >20% for Warning, >70% for Critical.
 
 ---

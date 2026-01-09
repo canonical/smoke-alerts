@@ -132,4 +132,6 @@ An overview of all alert rules.
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
 | **CephAPIFailureRateHigh** | Ceph API failure rate >20% over 1 hour (excludes /api/auth) | Warning |
+| **CephAPIFailureRateCritical** | Ceph API failure rate >70% over 1 hour (excludes /api/auth) | Critical |
 | **CephAuthFailureRateHigh** | Ceph authentication failure rate >20% over 1 hour | Warning |
+| **CephAuthFailureRateCritical** | Ceph authentication failure rate >70% over 1 hour | Critical |
