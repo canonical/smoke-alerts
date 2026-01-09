@@ -98,3 +98,11 @@ An overview of all alert rules.
 | **CanonicalK8sUserAccessFailuresCritical** | User has ≥5 access failures in 10 minutes | Critical |
 | **CanonicalK8sAPIRequestBurst** | API request rate over 10 minutes exceeds 3x the 1-hour baseline | Warning |
 | **CanonicalK8sHighRequestRatePerUser** | User exceeds 50 requests/second over 10 minutes | Warning |
+
+## Charmed Ceph Alert Rules
+
+### Loki Alerts
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CephAPIFailureRateHigh** | Ceph API failure rate >20% over 1 hour (excludes /api/auth) | Warning |
+| **CephAuthFailureRateHigh** | Ceph authentication failure rate >20% over 1 hour | Warning |
