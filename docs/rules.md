@@ -125,3 +125,11 @@ An overview of all alert rules.
 |------------|-------------------|----------|
 | **CharmedOpenSearchSecurityAuditEventsHigh** | >3 security audit events in 10 minutes | Warning |
 | **CharmedOpenSearchSecurityAuditEventsCritical** | >5 security audit events in 10 minutes | Critical |
+
+## Charmed Ceph Alert Rules
+
+### Loki Alerts
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CephAPIFailureRateHigh** | Ceph API failure rate >20% over 1 hour (excludes /api/auth) | Warning |
+| **CephAuthFailureRateHigh** | Ceph authentication failure rate >20% over 1 hour | Warning |
