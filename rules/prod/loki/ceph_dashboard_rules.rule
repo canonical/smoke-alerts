@@ -6,23 +6,23 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 != "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(4|5).."
                 [1h]
               )
             )
             /
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 != "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(1|2|3|4|5).."
                 [1h]
               )
@@ -42,23 +42,23 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 != "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(4|5).."
                 [1h]
               )
             )
             /
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 != "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(1|2|3|4|5).."
                 [1h]
               )
@@ -78,23 +78,23 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 |= "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(4|5).."
                 [1h]
               )
             )
             /
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 |= "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(1|2|3|4|5).."
                 [1h]
               )
@@ -114,23 +114,23 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 |= "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(4|5).."
                 [1h]
               )
             )
             /
-            sum by (juju_model, juju_application, juju_unit)(
+            sum by (juju_model)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
                 |= "/api/auth"
-                | pattern `[dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
+                | pattern `<_> [dashboard INFO request] [<_>] [<method>] [<status_code>] <_>`
                 | status_code=~"(1|2|3|4|5).."
                 [1h]
               )
