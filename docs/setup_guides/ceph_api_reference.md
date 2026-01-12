@@ -1,9 +1,9 @@
 # Ceph RESTful API (Ceph API) Failure Rate Alerts
 
 ## Overview
-The Ceph Manager (MGR) exposes RESTful API (which is known as **Ceph API**) via its Ceph Dashboard module for managing and monitoring the Ceph cluster. Notice that this "Ceph API" is only for Ceph cluster management (check cluster health, view OSD status, create pools, manage users, etc.,) and does not handle data operations (RBD Operations, Object Storage Operations, File Storage Operations). Ceph RADOS Gateway (RGW) exposes its own RESTful API for data operations, while Ceph RBD and CephFS use the native Ceph protocol (RADOS) for data operations instead of RESTful APIs.
+The Ceph Manager (MGR) exposes RESTful API (which is known as **Ceph API**) via its Ceph Dashboard module for managing and monitoring the Ceph cluster. Notice that this "Ceph API" is only for Ceph cluster management (check cluster health, view OSD status, create pools, manage users, etc.) and does not handle data operations (RBD Operations, Object Storage Operations, File Storage Operations). Ceph RADOS Gateway (RGW) exposes its own RESTful API for data operations, while Ceph RBD and CephFS use the native Ceph protocol (RADOS) for data operations instead of RESTful APIs.
 
-The scope of the alert rules in [ceph_dashboard_rules.rule](../rules/prod/loki/ceph_dashboard_rules.rule) is to monitor the API access failure rates (via HTTP status codes) for a [charmed Ceph cluster](https://ubuntu.com/ceph/docs) using the Ceph API, which is only for control plane operations rather than data plane operations.
+The scope of the alert rules in [ceph_dashboard_rules.rule](../../rules/prod/loki/ceph_dashboard_rules.rule) is to monitor the API access failure rates (via HTTP status codes) for a [charmed Ceph cluster](https://ubuntu.com/ceph/docs) using the Ceph API, which is only for control plane operations rather than data plane operations.
 
 > **Note:** The Ceph dashboard module is optional. If you do not plan to use the Ceph dashboard for managing and monitoring the Ceph cluster, these alert rules will not be applicable.
 
@@ -54,10 +54,10 @@ juju deploy cos-configuration-k8s cos-config \
     --config git_depth=1 \
     --config loki_alert_rules_path=rules/prod/loki/ \
 
-# Relate to Loki and Prometheus
+# Relate to Loki
 juju relate loki cos-config
 ```
-After this point, the alert rules in [ceph_dashboard_rules.rule](../rules/prod/loki/ceph_dashboard_rules.rule) will be applicable.
+After this point, the alert rules in [ceph_dashboard_rules.rule](../../rules/prod/loki/ceph_dashboard_rules.rule) will be applicable.
 
 ## API Log Source and Format
 The HTTP access logs for Ceph API are recorded in `/var/log/ceph/ceph-mgr.*.log` file in the `ceph-mon` machine. Example log entries:
