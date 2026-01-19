@@ -17,32 +17,32 @@ An overview of all alert rules.
 
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
-| **CharmedOpenStackSubnetIPExhaustWarning** | Subnet IP usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackSubnetIPExhausted** | All IPs in subnet exhausted for 5 minutes | Critical |
-| **CharmedOpenStackSubnetPoolExhaustWarning** | >90% of allocatable subnets (of a specific prefix length) used from subnet pool for 5 minutes | Warning |
-| **CharmedOpenStackSubnetPoolExhausted** | All allocatable subnets (of a specific prefix length) exhausted in subnet pool for 5 minutes | Critical |
-| **CharmedOpenStackNetworkQuotaWarning** | Network quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackNetworkQuotaExhausted** | Network quota fully exhausted for 5 minutes | Critical |
-| **CharmedOpenStackPortQuotaWarning** | Port quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackPortQuotaExhausted** | Port quota fully exhausted for 5 minutes | Critical |
-| **CharmedOpenStackRouterQuotaWarning** | Router quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackRouterQuotaExhausted** | Router quota fully exhausted for 5 minutes | Critical |
-| **CharmedOpenStackFloatingIPQuotaWarning** | Floating IP quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackFloatingIPQuotaExhausted** | Floating IP quota fully exhausted for 5 minutes | Critical |
-| **CharmedOpenStackSubnetQuotaWarning** | Subnet quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackSubnetQuotaExhausted** | Subnet quota fully exhausted for 5 minutes | Critical |
-| **CharmedOpenStackSecurityGroupQuotaWarning** | Security group quota usage >90% for 5 minutes | Warning |
-| **CharmedOpenStackSecurityGroupQuotaExhausted** | Security group quota fully exhausted for 5 minutes | Critical |
+| **CharmedOpenStackSubnetIPExhaustWarning** | Subnet IP usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackSubnetIPExhausted** | All IPs in subnet exhausted for 10 minutes | Critical |
+| **CharmedOpenStackSubnetPoolExhaustWarning** | >90% of allocatable subnets (of a specific prefix length) used from subnet pool for 10 minutes | Warning |
+| **CharmedOpenStackSubnetPoolExhausted** | All allocatable subnets (of a specific prefix length) exhausted in subnet pool for 10 minutes | Critical |
+| **CharmedOpenStackNetworkQuotaWarning** | Network quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackNetworkQuotaExhausted** | Network quota fully exhausted for 10 minutes | Critical |
+| **CharmedOpenStackPortQuotaWarning** | Port quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackPortQuotaExhausted** | Port quota fully exhausted for 10 minutes | Critical |
+| **CharmedOpenStackRouterQuotaWarning** | Router quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackRouterQuotaExhausted** | Router quota fully exhausted for 10 minutes | Critical |
+| **CharmedOpenStackFloatingIPQuotaWarning** | Floating IP quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackFloatingIPQuotaExhausted** | Floating IP quota fully exhausted for 10 minutes | Critical |
+| **CharmedOpenStackSubnetQuotaWarning** | Subnet quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackSubnetQuotaExhausted** | Subnet quota fully exhausted for 10 minutes | Critical |
+| **CharmedOpenStackSecurityGroupQuotaWarning** | Security group quota usage >90% for 10 minutes | Warning |
+| **CharmedOpenStackSecurityGroupQuotaExhausted** | Security group quota fully exhausted for 10 minutes | Critical |
 
 ### Loki Alerts
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
 | **CharmedOpenStackAPIFailureRateHigh** | API failure rate >20% across all services over 1 hour | Warning |
 | **CharmedOpenStackAPIFailureRateCritical** | API failure rate >70% across all services over 1 hour | Critical |
-| **CharmedOpenStackKeystoneAPIFailure** | Keystone API failure rate >10% over 5 minutes | Warning |
-| **CharmedOpenStackNovaAPIFailure** | Nova API failure rate >15% over 10 minutes | Warning |
-| **CharmedOpenStackNeutronAPIFailure** | Neutron API failure rate >15% over 10 minutes | Warning |
-| **CharmedOpenStackGlanceAPIFailure** | Glance API failure rate >15% over 10 minutes | Warning |
+| **CharmedOpenStackKeystoneAPIFailure** | Keystone API failure rate >20% over 10 minutes | Warning |
+| **CharmedOpenStackNovaAPIFailure** | Nova API failure rate >20% over 10 minutes | Warning |
+| **CharmedOpenStackNeutronAPIFailure** | Neutron API failure rate >20% over 10 minutes | Warning |
+| **CharmedOpenStackGlanceAPIFailure** | Glance API failure rate >20% over 10 minutes | Warning |
 | **CharmedOpenStackNewRoleAssignment** | New role assignment detected | Warning |
 | **CharmedOpenStackHighLoginFailureRate** | Authentication failure rate >20% over 1 hour | Warning |
 | **CharmedOpenStackMultipleFailedLoginsWarning** | User has ≥3 failed login attempts in 10 minutes | Warning |

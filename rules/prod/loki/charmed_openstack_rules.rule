@@ -84,7 +84,7 @@ groups:
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
                     | status_code=~"(4|5).."
-                    [5m]
+                    [10m]
                   )
                 )
                 /
@@ -95,17 +95,17 @@ groups:
                     | pattern "<_> \"<_>\" status: <status_code_b> <_>"
                     | label_format status_code="{{if contains \"status:\" .status_code_a}}{{.status_code_b}}{{else}}{{.status_code_a}}{{end}}"
                     | status_code=~"(1|2|3|4|5).."
-                    [5m]
+                    [10m]
                   )
                 )
               ) * 100
-            ) > 10
+            ) > 20
           labels:
             alert_type: authentication_failure
             service: keystone
             severity: warning
           annotations:
-            description: Keystone service is experiencing {{ $value }}% failure rate over the last 5 minutes.
+            description: Keystone service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Keystone API failures detected in Charmed OpenStack
 
         - alert: CharmedOpenStackNovaAPIFailure
@@ -134,7 +134,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 20
           labels:
             alert_type: compute_failure
             service: nova
@@ -169,7 +169,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 20
           labels:
             alert_type: network_failure
             service: neutron
@@ -204,7 +204,7 @@ groups:
                   )
                 )
               ) * 100
-            ) > 15
+            ) > 20
           labels:
             alert_type: image_failure
             service: glance
