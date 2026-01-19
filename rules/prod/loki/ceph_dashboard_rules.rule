@@ -6,7 +6,7 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -17,7 +17,7 @@ groups:
               )
             )
             /
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -42,7 +42,7 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -53,7 +53,7 @@ groups:
               )
             )
             /
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -78,7 +78,7 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -89,7 +89,7 @@ groups:
               )
             )
             /
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -114,7 +114,7 @@ groups:
       expr: |-
         (
           (
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
@@ -125,7 +125,7 @@ groups:
               )
             )
             /
-            sum by (juju_model)(
+            sum by (juju_model, juju_unit)(
               rate(
                 {filename=~"/var/log/ceph/ceph-mgr.*"}
                 |= "[dashboard INFO request]"
