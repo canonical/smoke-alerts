@@ -5,47 +5,45 @@ groups:
       - alert: LandscapeAPIFailureRateHigh
         expr: |-
           (
-            sum by (juju_model, filename) (
+            sum by (juju_model) (
               rate({filename=~"/var/log/landscape-server/(api|appserver|message-server|pingserver|package-upload|package-search).log"}
                 |~ `(\" [45][0-9]{2} |status=[45][0-9]{2}|[45][0-9]{2}:)` [1h])
               )
               /
-              sum by (juju_model, filename) (
+              sum by (juju_model) (
               rate({filename=~"/var/log/landscape-server/(api|appserver|message-server|pingserver|package-upload|package-search).log"}
                   |~ `(\" [0-9]{3} |status=[0-9]{3}|[0-9]{3}:)` [1h])
               )
           ) * 100 > 20
-        for: 5m
         labels:
           alert_type: api_failure_rate
           service: landscape
           severity: warning
         annotations:
           description: |
-            API failure rate for {{ $labels.filename }} in model {{ $labels.juju_model }}
-            is {{ $value | humanizePercentage }} over the last hour, exceeding the 20% threshold.
+            API failure rate for {{ $labels.juju_model }}
+            is {{ $value | printf "%.0f" }}% over the last hour, exceeding the 20% threshold.
           summary: "Landscape API error rate >20% in {{ $labels.juju_model }}"
 
       - alert: LandscapeAPIFailureRateCritical
         expr: |-
           (
-            sum by (juju_model, filename) (
+            sum by (juju_model) (
               rate({filename=~"/var/log/landscape-server/(api|appserver|message-server|pingserver|package-upload|package-search).log"}
                   |~ `(\" [45][0-9]{2} |status=[45][0-9]{2}|[45][0-9]{2}:)` [1h])
               )
               /
-              sum by (juju_model, filename) (
+              sum by (juju_model) (
               rate({filename=~"/var/log/landscape-server/(api|appserver|message-server|pingserver|package-upload|package-search).log"}
                   |~ `(\" [0-9]{3} |status=[0-9]{3}|[0-9]{3}:)` [1h])
               )
           ) * 100 > 70
-        for: 5m
         labels:
           alert_type: api_failure_rate
           service: landscape
           severity: critical
         annotations:
           description: |
-            CRITICAL: API failure rate for {{ $labels.filename }} in model {{ $labels.juju_model }}
-            is {{ $value | humanizePercentage }} over the last hour, exceeding the 70% threshold.
+            CRITICAL: API failure rate for {{ $labels.juju_model }}
+            is {{ $value | printf "%.0f" }}% over the last hour, exceeding the 70% threshold.
           summary: "Landscape API error rate >70% in {{ $labels.juju_model }}"

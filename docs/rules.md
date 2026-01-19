@@ -105,5 +105,5 @@ An overview of all alert rules.
 
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
-| **LandscapeAPIFailureRateHigh** | API failure rate >20% across all services over 1 hour | Warning |
-| **LandscapeAPIFailureRateCritical** | API failure rate >70% across all services over 1 hour | Critical |
+| **LandscapeAPIFailureRateHigh** | API failure rate >20% across all services over last 1 hour | Warning |
+| **LandscapeAPIFailureRateCritical** | API failure rate >70% across all services over last 1 hour | Critical |
