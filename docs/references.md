@@ -207,3 +207,45 @@ In `/var/log/kubernetes/audit.log`:
 Alert will trigger when a single user exceeds 50 requests/second sustained over 10 minutes, indicating possible compromised service account or runaway application.
 
 ---
+
+## Landscape Server
+
+These log lines contain HTTP status codes indicating API failures (4xx or 5xx responses) from various Landscape Server components. The Landscape Server logs are located in `/var/log/landscape-server/` directory.
+
+### LandscapeAPIFailureRateHigh and LandscapeAPIFailureRateCritical
+
+**Example log lines:**
+
+From `api.log`:
+```
+Jan 18 23:43:07 api-1 INFO  "127.0.0.1" - - [18/Jan/2026:23:43:06 +0000] "GET /metrics?action=MissingAction&access_key_id=Unknown HTTP/1.1" 404 57 "-" "GrafanaAgent/v0.40.4 (static; linux; binary)"
+```
+
+From `appserver.log`:
+```
+Jan 18 23:42:53 appserver-1 INFO  GET /metrics method=GET path=/metrics status=404 duration_ms=110.058 ip=127.0.0.1 proto=HTTP/1.1 length=10610 ua="GrafanaAgent/v0.40.4 (static; linux; binary)" request_id=a9cc3b7c-39fc-4b7c-8301-e346d47364d7
+```
+
+From `message-server.log`:
+```
+Jan 18 23:52:03 message-server-2 INFO  "10.17.2.199" - - [18/Jan/2026:23:52:02 +0000] "POST /message-system HTTP/1.1" 200 235 "-" "landscape-client/24.02-0ubuntu5.7"
+```
+
+From `pingserver.log`:
+```
+Jan 18 23:52:09 pingserver-2 INFO  "::ffff:10.17.2.199" - - [18/Jan/2026:23:52:08 +0000] "POST /ping HTTP/1.1" 200 15 "-" "PycURL/7.45.3 libcurl/8.5.0 GnuTLS/3.8.3 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7"
+```
+
+From `package-upload.log`:
+```
+Jan 18 23:43:13 package-upload-1 INFO  "127.0.0.1" - - [18/Jan/2026:23:43:12 +0000] "GET /metrics HTTP/1.1" 404 57 "-" "GrafanaAgent/v0.40.4 (static; linux; binary)"
+```
+
+From `package-search.log`:
+```
+Jan 19 00:45:13 package-search INFO  package-search 2026/01/19 00:45:13 127.0.0.1:45934 - /UpdateUsns 200: succeeded (took 136.314µs)
+```
+
+Alert will trigger if the proportion of log lines with 4xx or 5xx status codes exceeds a threshold (20% for Warning, 70% for Critical) over a 1-hour period across any of these log files.
+
+---
