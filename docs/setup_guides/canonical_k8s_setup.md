@@ -28,26 +28,26 @@ juju exec --application k8s-control-plane -- sudo sh -c 'cat >/var/snap/k8s/comm
 apiVersion: audit.k8s.io/v1
 kind: Policy
 rules:
-    # Log ServiceAccount and RBAC creation, deletion, updates
-    - level: RequestResponse
-        verbs: ["create", "update", "delete"]
-        resources:
-            - group: ""
-                resources: ["serviceaccounts"]
-            - group: "rbac.authorization.k8s.io"
-                resources: ["roles", "clusterroles", "rolebindings", "clusterrolebindings"]
-    # Log all authentication attempts (users)
-    - level: Metadata
-        verbs: ["create", "update", "delete"]
-        resources:
-            - group: ""
-                resources: ["secrets"]
-    # Log DaemonSet operations
-    - level: RequestResponse
-        verbs: ["create", "update", "delete"]
-        resources:
-            - group: "apps"
-                resources: ["daemonsets"]
+  # Log ServiceAccount and RBAC creation, deletion, updates
+  - level: RequestResponse
+    verbs: ["create", "update", "delete"]
+    resources:
+      - group: ""
+        resources: ["serviceaccounts"]
+      - group: "rbac.authorization.k8s.io"
+        resources: ["roles", "clusterroles", "rolebindings", "clusterrolebindings"]
+  # Log all authentication attempts (users)
+  - level: Metadata
+    verbs: ["create", "update", "delete"]
+    resources:
+      - group: ""
+        resources: ["secrets"]
+  # Log DaemonSet operations
+  - level: RequestResponse
+    verbs: ["create", "update", "delete"]
+    resources:
+      - group: "apps"
+        resources: ["daemonsets"]
 EOL'
 ```
 
