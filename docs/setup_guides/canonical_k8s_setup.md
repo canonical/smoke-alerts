@@ -30,7 +30,7 @@ kind: Policy
 rules:
   # Log ServiceAccount and RBAC creation, deletion, updates
   - level: RequestResponse
-    verbs: ["create", "update", "delete"]
+    verbs: ["create", "update", "patch", "delete"]
     resources:
       - group: ""
         resources: ["serviceaccounts"]
@@ -38,13 +38,13 @@ rules:
         resources: ["roles", "clusterroles", "rolebindings", "clusterrolebindings"]
   # Log all authentication attempts (users)
   - level: Metadata
-    verbs: ["create", "update", "delete"]
+    verbs: ["create", "update", "patch", "delete"]
     resources:
       - group: ""
         resources: ["secrets"]
   # Log DaemonSet operations
   - level: RequestResponse
-    verbs: ["create", "update", "delete"]
+    verbs: ["create", "update", "patch", "delete"]
     resources:
       - group: "apps"
         resources: ["daemonsets"]
