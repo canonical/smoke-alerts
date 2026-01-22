@@ -128,6 +128,16 @@ An overview of all alert rules.
 
 ## Charmed Ceph Alert Rules
 
+### Prometheus Alerts
+> **Note:** One alert will be triggered per OSD affected.
+
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CephOSDDownSpecific** | An OSD down for 10 minutes | Warning |
+| **CephOSDCommitLatencyHigh** | OSD commit latency >50ms for 10 minutes | Warning |
+| **CephOSDCommitLatencyCritical** | OSD commit latency >200ms for 10 minutes | Critical |
+| **CephOSDCommitLatencyOutlier** | OSD commit latency >50ms AND >2x cluster average for 10 minutes | Warning |
+
 ### Loki Alerts
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|
