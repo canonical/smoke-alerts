@@ -2,7 +2,9 @@ groups:
   - name: ceph_osd_health
     rules:
       - alert: CephOSDDownSpecific
-        expr: ceph_osd_up == 0
+        expr: |
+          (ceph_osd_up == 0)
+          * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
           severity: warning
@@ -14,7 +16,9 @@ groups:
           description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) has been down for more than 10 minutes."
 
       - alert: CephOSDCommitLatencyHigh
-        expr: ceph_osd_commit_latency_ms > 50
+        expr: |
+          (ceph_osd_commit_latency_ms > 50)
+          * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
           severity: warning
@@ -26,7 +30,9 @@ groups:
           description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) commit latency is {{ $value | printf \"%.0f\" }}ms, exceeding 50ms threshold for more than 10 minutes."
 
       - alert: CephOSDCommitLatencyCritical
-        expr: ceph_osd_commit_latency_ms > 200
+        expr: |
+          (ceph_osd_commit_latency_ms > 200)
+          * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
           severity: critical
@@ -39,9 +45,12 @@ groups:
 
       - alert: CephOSDCommitLatencyOutlier
         expr: |
-          (ceph_osd_commit_latency_ms > 50)
-          and
-          (ceph_osd_commit_latency_ms > on() group_left 2 * avg(ceph_osd_commit_latency_ms))
+          (
+            (ceph_osd_commit_latency_ms > 50)
+            and
+            (ceph_osd_commit_latency_ms > on() group_left 2 * avg(ceph_osd_commit_latency_ms))
+          )
+          * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
           severity: warning
@@ -50,4 +59,4 @@ groups:
           service: ceph-osd
         annotations:
           summary: "OSD {{ $labels.ceph_daemon }} commit latency outlier"
-          description: "OSD {{ $labels.ceph_daemon }} is experiencing commit latency of {{ $value | printf \"%.0f\" }}ms which is significantly higher than the cluster average."
+          description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) is experiencing commit latency of {{ $value | printf \"%.0f\" }}ms which is significantly higher than the cluster average."
