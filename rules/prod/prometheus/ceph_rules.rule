@@ -15,13 +15,13 @@ groups:
           summary: "OSD {{ $labels.ceph_daemon }} is down"
           description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) has been down for more than 10 minutes."
 
-      - alert: CephOSDDownHighOnHost
+      - alert: CephOSDDownAllOnHost
         expr: |
           (
             count by (hostname) ((ceph_osd_up == 0) * on(ceph_daemon) group_left(hostname) ceph_osd_metadata)
             /
             count by (hostname) (ceph_osd_metadata)
-          ) * 100 >= 10
+          ) == 1
         for: 10m
         labels:
           severity: critical
@@ -29,8 +29,8 @@ groups:
           alert_type: osd_down
           service: ceph-osd
         annotations:
-            summary: "Critical OSD loss in Host {{ $labels.hostname }}"
-            description: "{{ $value | printf \"%.1f\" }}% of OSDs in host {{ $labels.hostname }} has been down for more than 10 minutes."
+            summary: "All OSDs down in Host {{ $labels.hostname }}"
+            description: "All OSDs in host {{ $labels.hostname }} have been down for more than 10 minutes."
 
       - alert: CephOSDCommitLatencyHigh
         expr: |
