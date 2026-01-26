@@ -47,6 +47,9 @@ An overview of all alert rules.
 | **CharmedOpenStackHighLoginFailureRate** | Authentication failure rate >20% over 1 hour | Warning |
 | **CharmedOpenStackMultipleFailedLoginsWarning** | User has ≥3 failed login attempts in 10 minutes | Warning |
 | **CharmedOpenStackMultipleFailedLoginsCritical** | User has ≥5 failed login attempts in 10 minutes | Critical |
+| **CharmedOpenStackAPIRequestBurst** | 10-minute API request rate exceeds 3x the 1-hour baseline | Warning |
+| **CharmedOpenStackKeystoneRequestHigh** | Keystone receiving >1000 requests/second over 10 minutes | Warning |
+| **CharmedOpenStackNovaRequestHigh** | Nova receiving >1000 requests/second over 10 minutes | Warning |
 
 ## Canonical K8s Alert Rules
 
