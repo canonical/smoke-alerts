@@ -98,7 +98,7 @@ In `/var/log/apache2/keystone_access.log`:
 127.0.0.1 - - [27/Jan/2026:10:00:00 +0000] "GET /v3/auth/tokens HTTP/1.1" 200 1234 "-" "python-keystoneclient"
 127.0.0.1 - - [27/Jan/2026:10:00:01 +0000] "POST /v3/auth/tokens HTTP/1.1" 201 5678 "-" "python-keystoneclient"
 ```
-Alert will trigger if Keystone's 10-minute average exceeds 5000 requests/second.
+Alert will trigger if Keystone's 10-minute average exceeds 1000 requests/second.
 
 ### CharmedOpenStackNovaRequestHigh
 **Example log lines:**
@@ -108,7 +108,7 @@ In `/var/log/apache2/nova-api-os-compute_access.log`:
 127.0.0.1 - - [27/Jan/2026:10:00:00 +0000] "GET /v2.1/servers HTTP/1.1" 200 4321 "-" "python-novaclient"
 127.0.0.1 - - [27/Jan/2026:10:00:01 +0000] "POST /v2.1/servers HTTP/1.1" 202 8765 "-" "python-novaclient"
 ```
-Alert will trigger if Nova's 10-minute average exceeds 5000 requests/second.
+Alert will trigger if Nova's 10-minute average exceeds 1000 requests/second.
 
 ---
 
