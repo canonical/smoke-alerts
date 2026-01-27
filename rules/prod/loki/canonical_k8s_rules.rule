@@ -439,3 +439,50 @@ groups:
           annotations:
             description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible brute-force attack or privilege escalation attempt detected.
             summary: Excessive access failures detected for user in Canonical K8s
+
+    - name: canonical-k8s-excessive-requests
+      rules:
+        - alert: CanonicalK8sAPIRequestBurst
+          expr: |-
+            (
+              sum by (juju_model) (
+                rate(
+                  {filename=~"/var/log/kubernetes/audit.log.*"}
+                  | json
+                  [10m]
+                )
+              )
+              >
+              1.1 * (
+                sum by (juju_model) (
+                  rate(
+                    {filename=~"/var/log/kubernetes/audit.log.*"}
+                    | json
+                    [1h]
+                  )
+                )
+              )
+            )
+          labels:
+            alert_type: api_abuse
+            severity: warning
+          annotations:
+            description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline."
+            summary: Sudden burst of API requests detected in Canonical K8s
+
+        - alert: CanonicalK8sHighRequestRatePerUser
+          expr: |-
+            sum by (juju_model, user_username) (
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | user_username != ""
+                [10m]
+              )
+            ) > 5
+          labels:
+            alert_type: api_abuse
+            severity: warning
+          annotations:
+            description: "User {{ $labels.user_username }} has made {{ $value }} requests/second in the last 10 minutes."
+            summary: High API request rate from single user in Canonical K8s
