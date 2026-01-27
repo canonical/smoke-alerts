@@ -467,7 +467,7 @@ groups:
             alert_type: api_abuse
             severity: warning
           annotations:
-            description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline."
+            description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline. Possible DDoS attack, misconfigured automation, or retry storm detected."
             summary: Sudden burst of API requests detected in Canonical K8s
 
         - alert: CanonicalK8sHighRequestRatePerUser
@@ -484,5 +484,5 @@ groups:
             alert_type: api_abuse
             severity: warning
           annotations:
-            description: "User {{ $labels.user_username }} has made {{ $value }} requests/second in the last 10 minutes."
+            description: "User {{ $labels.user_username }} has made {{ $value }} requests/second in the last 10 minutes. Possible compromised service account, runaway application, or abusive client behavior."
             summary: High API request rate from single user in Canonical K8s
