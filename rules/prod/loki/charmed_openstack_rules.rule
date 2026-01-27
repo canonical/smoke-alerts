@@ -338,7 +338,7 @@ groups:
                 )
               )
               >
-              3 * (
+              1.1 * (
                 sum by (juju_model) (
                   rate(
                     {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|apache2)/.*"}
@@ -365,7 +365,7 @@ groups:
                 | status_code=~"[1-5].."
                 [10m]
               )
-            ) > 1000
+            ) > 10
           labels:
             alert_type: api_abuse
             service: keystone
@@ -383,7 +383,7 @@ groups:
                 | status_code=~"[1-5].."
                 [10m]
               )
-            ) > 1000
+            ) > 10
           labels:
             alert_type: api_abuse
             service: nova
