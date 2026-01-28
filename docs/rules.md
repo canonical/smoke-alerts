@@ -93,3 +93,12 @@ An overview of all alert rules.
 | **CanonicalK8sDaemonSetDeleted** | DaemonSet deleted in past 3 days | Warning |
 | **CanonicalK8sUserAccessFailuresWarning** | User has ≥3 access failures in 10 minutes | Warning |
 | **CanonicalK8sUserAccessFailuresCritical** | User has ≥5 access failures in 10 minutes | Critical |
+
+## Landscape Server Alert Rules
+
+### Loki Alerts
+
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **LandscapeAPIFailureRateHigh** | API failure rate >20% across all services over last 1 hour | Warning |
+| **LandscapeAPIFailureRateCritical** | API failure rate >70% across all services over last 1 hour | Critical |
