@@ -10,10 +10,13 @@ An overview of all alert rules.
 >
 > **Important:** The OpenStack Exporter does not currently expose Neutron quota metrics. As a workaround, Neutron network quotas are **hardcoded** in [charmed_openstack_recording_rules.rule](../rules/prod/prometheus/charmed_openstack_recording_rules.rule) file as recording rules. These must be manually updated depending on your OpenStack deployment's quota settings.
 >
+
 > To verify the actual OpenStack network quotas:
 > ```bash
 > openstack quota show --network <project-id>
 > ```
+>
+> **Jan 2025 Update:** OpenStack Exporter now supports Neutron quota metrics in the [latest alpha release](https://github.com/openstack-exporter/openstack-exporter/releases/tag/v1.8.0-alpha). Future versions of smoke-alerts could leverage these metrics directly, removing the need for hardcoded recording rules. This could be done when the upstream release becomes stable and [charmed-openstack-exporter](https://snapcraft.io/charmed-openstack-exporter) uses it in latest/stable channel. At that point, this update section may no longer be needed.
 
 | Alert Name | Trigger Condition | Severity |
 |------------|-------------------|----------|

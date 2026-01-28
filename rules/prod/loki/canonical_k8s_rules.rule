@@ -28,7 +28,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "roles"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -85,7 +85,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "clusterroles"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -142,7 +142,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "rolebindings"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -199,7 +199,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "clusterrolebindings"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -256,7 +256,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "serviceaccounts"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -313,7 +313,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "secrets"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
@@ -370,7 +370,7 @@ groups:
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
                 | objectRef_resource = "daemonsets"
-                | verb = "update"
+                | verb =~ "update|patch"
                 | responseStatus_code < 300
                 [3d]
               )
