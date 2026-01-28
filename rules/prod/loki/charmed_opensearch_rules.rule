@@ -1,0 +1,49 @@
+namespace: charmed_opensearch_rules
+groups:
+  - name: charmed-opensearch-audit-events
+    rules:
+      - alert: CharmedOpenSearchSecurityAuditEventsHigh
+        expr: |-
+          sum by (juju_model, audit_category) (
+            count_over_time(
+              {filename=~"/snap/opentelemetry-collector/.*/shared-logs/opensearch/.*\\.json"}
+              | json
+              | component="audit"
+              | line_format "{{.message}}"
+              | json
+              | audit_category=~"FAILED_LOGIN|MISSING_PRIVILEGES|BAD_HEADERS|SSL_EXCEPTION|opensearch_SECURITY_INDEX_ATTEMPT"
+              [10m]
+            )
+          ) > 3
+        labels:
+          alert_type: security_event
+          service: opensearch
+          severity: warning
+        annotations:
+          description: |
+            OpenSearch in {{ $labels.juju_model }} has {{ $value }} security events {{ $labels.audit_category }} in the last 10 minutes.
+            This may indicate authentication failures, unauthorized access attempts, or security misconfigurations.
+          summary: "High security audit events (>3) in OpenSearch"
+
+      - alert: CharmedOpenSearchSecurityAuditEventsCritical
+        expr: |-
+          sum by (juju_model, audit_category) (
+            count_over_time(
+              {filename=~"/snap/opentelemetry-collector/.*/shared-logs/opensearch/.*\\.json"}
+              | json
+              | component="audit"
+              | line_format "{{.message}}"
+              | json
+              | audit_category=~"FAILED_LOGIN|MISSING_PRIVILEGES|BAD_HEADERS|SSL_EXCEPTION|opensearch_SECURITY_INDEX_ATTEMPT"
+              [10m]
+            )
+          ) > 5
+        labels:
+          alert_type: security_event
+          service: opensearch
+          severity: critical
+        annotations:
+          description: |
+            OpenSearch in {{ $labels.juju_model }} has {{ $value }} security events {{ $labels.audit_category }} in the last 10 minutes.
+            This may indicate authentication failures, unauthorized access attempts, or security misconfigurations.
+          summary: "Critical security audit events (>5) in OpenSearch"
