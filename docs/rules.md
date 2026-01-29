@@ -93,3 +93,12 @@ An overview of all alert rules.
 | **CanonicalK8sDaemonSetDeleted** | DaemonSet deleted in past 3 days | Warning |
 | **CanonicalK8sUserAccessFailuresWarning** | User has ≥3 access failures in 10 minutes | Warning |
 | **CanonicalK8sUserAccessFailuresCritical** | User has ≥5 access failures in 10 minutes | Critical |
+
+## Charmed OpenSearch Alert Rules
+
+### Loki Alerts
+
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CharmedOpenSearchSecurityAuditEventsHigh** | >3 security audit events in 10 minutes | Warning |
+| **CharmedOpenSearchSecurityAuditEventsCritical** | >5 security audit events in 10 minutes | Critical |
