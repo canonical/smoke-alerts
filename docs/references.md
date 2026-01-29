@@ -265,3 +265,46 @@ In `istio-ingressgateway` access logs (via Promtail with `charm="istio-gateway"`
 Alert will trigger if the proportion of requests with 4xx or 5xx status codes exceeds the threshold over 1 hour.
 
 ---
+
+## Charmed OpenSearch
+
+These log lines contain audit events from the OpenSearch Security plugin. Logs are embedded as JSON within the `message` field of server logs.
+
+### CharmedOpenSearchSecurityAuditEvents*
+
+**Example log lines:**
+
+In `/var/snap/opensearch/common/var/log/opensearch/*_server.json` (collected via OpenTelemetry Collector at `/snap/opentelemetry-collector/.*/shared-logs/opensearch/*.json`):
+
+**Failed Login:**
+```json
+{
+  "type": "server",
+  "timestamp": "2026-01-29T00:42:17,757Z",
+  "level": "INFO",
+  "component": "audit",
+  "cluster.name": "opensearch-93fo",
+  "node.name": "opensearch-1.8be",
+  "message": "{\"audit_category\":\"FAILED_LOGIN\",\"audit_rest_request_path\":\"/\",\"audit_request_remote_address\":\"10.121.59.1\",\"audit_request_effective_user\":\"username\",\"@timestamp\":\"2026-01-29T00:42:17.757+00:00\"}",
+  "cluster.uuid": "sw8DD38gSoKSZhRpULtg3w",
+  "node.id": "ePAT6T0NRdOrqsZN--9w3Q"
+}
+```
+
+**Missing Privileges:**
+```json
+{
+  "type": "server",
+  "timestamp": "2026-01-29T00:42:20,982Z",
+  "level": "INFO",
+  "component": "audit",
+  "cluster.name": "opensearch-93fo",
+  "node.name": "opensearch-1.8be",
+  "message": "{\"audit_category\":\"MISSING_PRIVILEGES\",\"audit_request_privilege\":\"indices:admin/delete\",\"audit_request_effective_user\":\"admin\",\"audit_trace_resolved_indices\":[\".plugins-ml-config\",\"test-index\"],\"@timestamp\":\"2026-01-29T00:42:20.981+00:00\"}",
+  "cluster.uuid": "sw8DD38gSoKSZhRpULtg3w",
+  "node.id": "ePAT6T0NRdOrqsZN--9w3Q"
+}
+```
+Alert will trigger if >3 security audit events (FAILED_LOGIN, MISSING_PRIVILEGES, BAD_HEADERS, SSL_EXCEPTION, opensearch_SECURITY_INDEX_ATTEMPT) occur in 10 minutes.
+
+---
