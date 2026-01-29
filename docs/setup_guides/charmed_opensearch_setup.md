@@ -23,8 +23,8 @@ Deploy OpenTelemetry Collector as a subordinate charm to OpenSearch units:
 # Deploy opentelemetry-collector as subordinate
 juju deploy opentelemetry-collector --base ubuntu@<match-opensearch-charm-base>
 
-# Relate to OpenSearch to opentelemetry-collector
-juju relate opentelemetry-collector opensearch
+# Relate OpenSearch to opentelemetry-collector
+juju relate opensearch opentelemetry-collector
 
 # Connect to COS Loki (assumes offer exists)
 juju relate opentelemetry-collector loki-logging

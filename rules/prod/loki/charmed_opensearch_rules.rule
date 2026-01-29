@@ -21,7 +21,7 @@ groups:
           severity: warning
         annotations:
           description: |
-            OpenSearch in {{ $labels.juju_model }} has {{ $value }} security events {{ $labels.audit_category }} in the last 10 minutes.
+            OpenSearch in {{ $labels.juju_model }} has {{ $value }} {{ $labels.audit_category }} security events in the last 10 minutes.
             This may indicate authentication failures, unauthorized access attempts, or security misconfigurations.
           summary: "High security audit events (>3) in OpenSearch"
 
@@ -44,6 +44,6 @@ groups:
           severity: critical
         annotations:
           description: |
-            OpenSearch in {{ $labels.juju_model }} has {{ $value }} security events {{ $labels.audit_category }} in the last 10 minutes.
+            OpenSearch in {{ $labels.juju_model }} has {{ $value }} {{ $labels.audit_category }} security events in the last 10 minutes.
             This may indicate authentication failures, unauthorized access attempts, or security misconfigurations.
           summary: "Critical security audit events (>5) in OpenSearch"
