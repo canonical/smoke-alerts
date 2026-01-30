@@ -6,7 +6,7 @@ groups:
           expr: |-
             (
               (
-                sum by (filename)(
+                sum by (juju_model, filename)(
                   rate(
                     {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -17,7 +17,7 @@ groups:
                   )
                 )
                 /
-                sum by (filename)(
+                sum by (juju_model, filename)(
                   rate(
                     {filename=~"/var/log/(nova|ovn|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -40,7 +40,7 @@ groups:
           expr: |-
             (
               (
-                sum by (filename)(
+                sum by (juju_model, filename)(
                   rate(
                     {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -51,7 +51,7 @@ groups:
                   )
                 )
                 /
-                sum by (filename)(
+                sum by (juju_model, filename)(
                   rate(
                     {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|openvswitch|ceph|apache2)/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -77,7 +77,7 @@ groups:
           expr: |-
             (
               (
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -88,7 +88,7 @@ groups:
                   )
                 )
                 /
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/(keystone|apache2)/(keystone*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -112,7 +112,7 @@ groups:
           expr: |-
             (
               (
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/(nova|apache2)/(nova*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -123,7 +123,7 @@ groups:
                   )
                 )
                 /
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/(nova|apache2)/(nova*).*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -147,7 +147,7 @@ groups:
           expr: |-
             (
               (
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/neutron/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -158,7 +158,7 @@ groups:
                   )
                 )
                 /
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/neutron/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -182,7 +182,7 @@ groups:
           expr: |-
             (
               (
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/glance/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -193,7 +193,7 @@ groups:
                   )
                 )
                 /
-                sum(
+                sum by (juju_model)(
                   rate(
                     {filename=~"/var/log/glance/.*"}
                     | pattern "<_> \"<_>\" <status_code_a> <_>"
@@ -219,7 +219,7 @@ groups:
         - alert: CharmedOpenstackNewRoleAssignment
           expr: |-
             (
-              count(
+              count by (juju_model)(
                 rate(
                   {filename=~"/var/log/keystone/.*.log"}
                   |= "event_type"
@@ -243,7 +243,7 @@ groups:
           expr: |-
             (
               (
-                count(
+                count by (juju_model)(
                   rate(
                     {filename=~"/var/log/keystone/.*.log"}
                     |= "event_type"
@@ -256,7 +256,7 @@ groups:
                   )
                 )
                 /
-                count(
+                count by (juju_model)(
                   rate(
                     {filename=~"/var/log/keystone/.*.log"}
                     |= "event_type"
@@ -280,7 +280,7 @@ groups:
 
         - alert: CharmedOpenStackMultipleFailedLoginsWarning
           expr: |-
-            sum by (initiator_name) (
+            sum by (juju_model, initiator_name) (
               count_over_time(
                 {filename=~"/var/log/keystone/.*.log"}
                 |= "event_type"
@@ -303,7 +303,7 @@ groups:
 
         - alert: CharmedOpenStackMultipleFailedLoginsCritical
           expr: |-
-            sum by (initiator_name) (
+            sum by (juju_model, initiator_name) (
               count_over_time(
                 {filename=~"/var/log/keystone/.*.log"}
                 |= "event_type"
@@ -324,3 +324,70 @@ groups:
             description: User {{ $labels.initiator_name }} has {{ $value }} failed login attempts in the last 10 minutes.
             summary: Multiple failed login attempts detected for user in Charmed OpenStack
 
+    - name: charmed-openstack-excessive-requests
+      rules:
+        - alert: CharmedOpenStackAPIRequestBurst
+          expr: |-
+            (
+              sum by (juju_model) (
+                rate(
+                  {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|apache2)/.*"}
+                  | pattern `<_> "<method> <_>" <status_code> <_>`
+                  | status_code=~"[1-5].."
+                  [10m]
+                )
+              )
+              >
+              3 * (
+                sum by (juju_model) (
+                  rate(
+                    {filename=~"/var/log/(nova|keystone|cinder|glance|neutron|apache2)/.*"}
+                    | pattern `<_> "<method> <_>" <status_code> <_>`
+                    | status_code=~"[1-5].."
+                    [1h]
+                  )
+                )
+              )
+            )
+          labels:
+            alert_type: api_abuse
+            severity: warning
+          annotations:
+            description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline."
+            summary: Sudden burst of API requests detected in Charmed OpenStack
+
+        - alert: CharmedOpenStackKeystoneRequestHigh
+          expr: |-
+            sum by (juju_model) (
+              rate(
+                {filename=~"/var/log/(keystone|apache2)/keystone.*"}
+                | pattern `<_> "<method> <_>" <status_code> <_>`
+                | status_code=~"[1-5].."
+                [10m]
+              )
+            ) > 1000
+          labels:
+            alert_type: api_abuse
+            service: keystone
+            severity: warning
+          annotations:
+            description: "Keystone service is receiving {{ $value }} requests/second over the last 10 minutes."
+            summary: Keystone API request flood in Charmed OpenStack
+
+        - alert: CharmedOpenStackNovaRequestHigh
+          expr: |-
+            sum by (juju_model) (
+              rate(
+                {filename=~"/var/log/(nova|apache2)/nova.*"}
+                | pattern `<_> "<method> <_>" <status_code> <_>`
+                | status_code=~"[1-5].."
+                [10m]
+              )
+            ) > 1000
+          labels:
+            alert_type: api_abuse
+            service: nova
+            severity: warning
+          annotations:
+            description: "Nova compute service is receiving {{ $value }} requests/second over the last 10 minutes."
+            summary: Nova API request flood in Charmed OpenStack
