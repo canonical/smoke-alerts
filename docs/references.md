@@ -212,7 +212,7 @@ Alert will trigger when a single user exceeds 50 requests/second sustained over 
 
 These log lines contain HTTP status codes indicating API failures (4xx or 5xx responses) from various Landscape Server components. The Landscape Server logs are located in `/var/log/landscape-server/` directory.
 
-### LandscapeAPIFailureRateHigh and LandscapeAPIFailureRateCritical
+### LandscapeAPIFailureRate*
 
 **Example log lines:**
 
@@ -247,5 +247,21 @@ Jan 19 00:45:13 package-search INFO  package-search 2026/01/19 00:45:13 127.0.0.
 ```
 
 Alert will trigger if the proportion of log lines with 4xx or 5xx status codes exceeds a threshold (20% for Warning, 70% for Critical) over a 1-hour period across any of these log files.
+
+---
+
+## Charmed Kubeflow
+
+These alerts monitor user-facing API traffic through the istio-ingressgateway.
+
+### KubeflowGatewayFailureRate*
+**Example log line:**
+
+In `istio-ingressgateway` access logs (via Promtail with `charm="istio-gateway"`):
+```
+[2026-01-30T02:20:37.993Z] "GET /api/nonexistent HTTP/1.1" 404 - via_upstream - "-" 0 167 292 290 "10.x.x.x" "curl/8.5.0" "request-id" "10.x.x.x" "10.x.x.x:3000" outbound|3000||kfp-ui.kubeflow.svc.cluster.local 10.x.x.x:42606 10.x.x.x:8080 10.x.x.x:1857 - -
+```
+
+Alert will trigger if the proportion of requests with 4xx or 5xx status codes exceeds the threshold over 1 hour.
 
 ---
