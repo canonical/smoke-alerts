@@ -1,0 +1,51 @@
+namespace: kubeflow_gateway_rules
+groups:
+  - name: kubeflow-gateway-api-failures
+    rules:
+      - alert: KubeflowGatewayFailureRateHigh
+        expr: |-
+          (
+            sum by (juju_model) (
+              rate({charm="istio-gateway"}
+                |~ `" [45][0-9]{2} ` [1h])
+              )
+              /
+              sum by (juju_model) (
+              rate({charm="istio-gateway"}
+                  |~ `" [0-9]{3} ` [1h])
+              )
+          ) * 100 > 20
+        labels:
+          alert_type: api_failure_rate
+          service: kubeflow
+          severity: warning
+        annotations:
+          description: |
+            User-facing API failure rate for Kubeflow in {{ $labels.juju_model }}
+            is {{ $value | printf "%.0f" }}% over the last hour, exceeding the 20% threshold.
+            This indicates issues with user access to dashboards, notebooks, or pipelines.
+          summary: "Kubeflow gateway error rate >20% in {{ $labels.juju_model }}"
+
+      - alert: KubeflowGatewayFailureRateCritical
+        expr: |-
+          (
+            sum by (juju_model) (
+              rate({charm="istio-gateway"}
+                  |~ `" [45][0-9]{2} ` [1h])
+              )
+              /
+              sum by (juju_model) (
+              rate({charm="istio-gateway"}
+                  |~ `" [0-9]{3} ` [1h])
+              )
+          ) * 100 > 70
+        labels:
+          alert_type: api_failure_rate
+          service: kubeflow
+          severity: critical
+        annotations:
+          description: |
+            User-facing API failure rate for Kubeflow in {{ $labels.juju_model }}
+            is {{ $value | printf "%.0f" }}% over the last hour, exceeding the 70% threshold.
+            This indicates severe issues affecting user access to the Kubeflow platform.
+          summary: "Kubeflow gateway error rate >70% in {{ $labels.juju_model }}"
