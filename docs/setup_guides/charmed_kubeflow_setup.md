@@ -38,7 +38,7 @@ juju models --format json \
 
 #### Deploy Promtail
 > **Note:**
-This example below follow the official guide to forward logs from the `istio-ingressgateway` and `istiod`. However, only `istio-ingressgateway` logs are used for alerting in this guide, so an actual deployment may only need that.
+This example below follows the official guide to forward logs from the `istio-ingressgateway` and `istiod`. However, only `istio-ingressgateway` logs are used for alerting in this guide, so an actual deployment may only need that.
 
 Create `CKF_promtail.yaml` with the manifests below, updating the `juju_model`, `url` and `juju_model_uuid` values:
 
@@ -196,7 +196,7 @@ juju deploy cos-configuration-k8s cos-config \
 juju relate loki cos-config
 ```
 
-After that, the alerting rules defined in `rules/prod/loki/charmed_kubeflow_loki_alert_rules.rule` will be active.
+After that, the alerting rules from this repository under `rules/prod/loki/` will be active.
 
 ## Log Format
 
@@ -212,4 +212,4 @@ Key fields:
 - Response flags and timing information
 
 ## Additional Notes
-Internal service-to-service communication within the cluster are not captured by the `istio-ingressgateway` logs. The alerting rules only focus on user-facing API failures only.
+Internal service-to-service communication within the cluster is not captured by the `istio-ingressgateway` logs. The alerting rules focus on user-facing API failures only.

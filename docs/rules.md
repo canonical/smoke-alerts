@@ -108,7 +108,6 @@ An overview of all alert rules.
 | **LandscapeAPIFailureRateHigh** | API failure rate >20% across all services over last 1 hour | Warning |
 | **LandscapeAPIFailureRateCritical** | API failure rate >70% across all services over last 1 hour | Critical |
 
-
 ## Charmed Kubeflow Alert Rules
 
 ### Loki Alerts
