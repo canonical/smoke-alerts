@@ -184,4 +184,26 @@ In `/var/log/kubernetes/audit.log`:
 
 Alert will trigger if a user has multiple access failures (401 or 403) in a short period of time.
 
+### Excessive Request Detection Alerts
+
+#### CanonicalK8sAPIRequestBurst
+**Example log pattern:**
+
+In `/var/log/kubernetes/audit.log`:
+```json
+{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"Metadata","auditID":"abc123","stage":"ResponseComplete","requestURI":"/api/v1/namespaces/default/pods","verb":"list","user":{"username":"system:serviceaccount:default:my-app","groups":["system:serviceaccounts","system:authenticated"]},"sourceIPs":["10.0.0.50"],"userAgent":"my-app/v1.0","objectRef":{"resource":"pods","namespace":"default","apiVersion":"v1"},"responseStatus":{"metadata":{},"code":200},"requestReceivedTimestamp":"2026-01-27T10:00:00.000000Z","stageTimestamp":"2026-01-27T10:00:00.010000Z"}
+```
+
+Alert will trigger when the API request rate over 10 minutes exceeds 3x the 1-hour baseline, indicating possible DDoS, misconfigured automation, or retry storm.
+
+#### CanonicalK8sHighRequestRatePerUser
+**Example log pattern:**
+
+In `/var/log/kubernetes/audit.log`:
+```json
+{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"Metadata","auditID":"def456","stage":"ResponseComplete","requestURI":"/api/v1/namespaces/default/configmaps","verb":"get","user":{"username":"system:serviceaccount:monitoring:prometheus","groups":["system:serviceaccounts","system:authenticated"]},"sourceIPs":["10.0.0.100"],"userAgent":"Prometheus/2.45.0","objectRef":{"resource":"configmaps","namespace":"default","apiVersion":"v1"},"responseStatus":{"metadata":{},"code":200},"requestReceivedTimestamp":"2026-01-27T10:00:01.000000Z","stageTimestamp":"2026-01-27T10:00:01.005000Z"}
+```
+
+Alert will trigger when a single user exceeds 50 requests/second sustained over 10 minutes, indicating possible compromised service account or runaway application.
+
 ---

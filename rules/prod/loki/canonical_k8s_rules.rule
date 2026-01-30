@@ -4,7 +4,7 @@ groups:
       rules:
         - alert: CanonicalK8sRoleCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -23,7 +23,7 @@ groups:
 
         - alert: CanonicalK8sRoleUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -42,7 +42,7 @@ groups:
 
         - alert: CanonicalK8sRoleDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -61,7 +61,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -80,7 +80,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -99,7 +99,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -118,7 +118,7 @@ groups:
 
         - alert: CanonicalK8sRoleBindingCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -137,7 +137,7 @@ groups:
 
         - alert: CanonicalK8sRoleBindingUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -156,7 +156,7 @@ groups:
 
         - alert: CanonicalK8sRoleBindingDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -175,7 +175,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleBindingCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -194,7 +194,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleBindingUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -213,7 +213,7 @@ groups:
 
         - alert: CanonicalK8sClusterRoleBindingDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -232,7 +232,7 @@ groups:
 
         - alert: CanonicalK8sServiceAccountCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -251,7 +251,7 @@ groups:
 
         - alert: CanonicalK8sServiceAccountUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -270,7 +270,7 @@ groups:
 
         - alert: CanonicalK8sServiceAccountDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -289,7 +289,7 @@ groups:
 
         - alert: CanonicalK8sSecretCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -308,7 +308,7 @@ groups:
 
         - alert: CanonicalK8sSecretUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -327,7 +327,7 @@ groups:
 
         - alert: CanonicalK8sSecretDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -346,7 +346,7 @@ groups:
 
         - alert: CanonicalK8sDaemonSetCreated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -365,7 +365,7 @@ groups:
 
         - alert: CanonicalK8sDaemonSetUpdated
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -384,7 +384,7 @@ groups:
 
         - alert: CanonicalK8sDaemonSetDeleted
           expr: |-
-            count(
+            count by (juju_model) (
               rate(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -406,7 +406,7 @@ groups:
       rules:
         - alert: CanonicalK8sUserAccessFailuresWarning
           expr: |-
-            sum by (user_username) (
+            sum by (juju_model, user_username) (
               count_over_time(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -424,7 +424,7 @@ groups:
 
         - alert: CanonicalK8sUserAccessFailuresCritical
           expr: |-
-            sum by (user_username) (
+            sum by (juju_model, user_username) (
               count_over_time(
                 {filename=~"/var/log/kubernetes/audit.log.*"}
                 | json
@@ -439,3 +439,50 @@ groups:
           annotations:
             description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible brute-force attack or privilege escalation attempt detected.
             summary: Excessive access failures detected for user in Canonical K8s
+
+    - name: canonical-k8s-excessive-requests
+      rules:
+        - alert: CanonicalK8sAPIRequestBurst
+          expr: |-
+            (
+              sum by (juju_model) (
+                rate(
+                  {filename=~"/var/log/kubernetes/audit.log.*"}
+                  | json
+                  [10m]
+                )
+              )
+              >
+              3 * (
+                sum by (juju_model) (
+                  rate(
+                    {filename=~"/var/log/kubernetes/audit.log.*"}
+                    | json
+                    [1h]
+                  )
+                )
+              )
+            )
+          labels:
+            alert_type: api_abuse
+            severity: warning
+          annotations:
+            description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline. Possible DDoS attack, misconfigured automation, or retry storm detected."
+            summary: Sudden burst of API requests detected in Canonical K8s
+
+        - alert: CanonicalK8sHighRequestRatePerUser
+          expr: |-
+            sum by (juju_model, user_username) (
+              rate(
+                {filename=~"/var/log/kubernetes/audit.log.*"}
+                | json
+                | user_username != ""
+                [10m]
+              )
+            ) > 50
+          labels:
+            alert_type: api_abuse
+            severity: warning
+          annotations:
+            description: "User {{ $labels.user_username }} has made {{ $value }} requests/second in the last 10 minutes. Possible compromised service account, runaway application, or abusive client behavior."
+            summary: High API request rate from single user in Canonical K8s

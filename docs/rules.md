@@ -96,3 +96,5 @@ An overview of all alert rules.
 | **CanonicalK8sDaemonSetDeleted** | DaemonSet deleted in past 3 days | Warning |
 | **CanonicalK8sUserAccessFailuresWarning** | User has ≥3 access failures in 10 minutes | Warning |
 | **CanonicalK8sUserAccessFailuresCritical** | User has ≥5 access failures in 10 minutes | Critical |
+| **CanonicalK8sAPIRequestBurst** | API request rate over 10 minutes exceeds 3x the 1-hour baseline | Warning |
+| **CanonicalK8sHighRequestRatePerUser** | User exceeds 50 requests/second over 10 minutes | Warning |
