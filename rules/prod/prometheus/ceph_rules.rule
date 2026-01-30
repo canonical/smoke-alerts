@@ -34,7 +34,7 @@ groups:
 
       - alert: CephOSDCommitLatencyHigh
         expr: |
-          (ceph_osd_commit_latency_ms > 50)
+          (ceph_osd_commit_latency_ms > 150)
           * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
@@ -44,11 +44,11 @@ groups:
           service: ceph-osd
         annotations:
           summary: "OSD {{ $labels.ceph_daemon }} commit latency high"
-          description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) commit latency is {{ $value | printf \"%.0f\" }}ms, exceeding 50ms threshold for more than 10 minutes."
+          description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) commit latency is {{ $value | printf \"%.0f\" }}ms, exceeding 150ms threshold for more than 10 minutes."
 
       - alert: CephOSDCommitLatencyCritical
         expr: |
-          (ceph_osd_commit_latency_ms > 200)
+          (ceph_osd_commit_latency_ms > 300)
           * on(ceph_daemon) group_left(hostname) ceph_osd_metadata
         for: 10m
         labels:
@@ -58,12 +58,12 @@ groups:
           service: ceph-osd
         annotations:
           summary: "OSD {{ $labels.ceph_daemon }} commit latency critical"
-          description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) commit latency is {{ $value | printf \"%.0f\" }}ms, exceeding 200ms threshold for more than 10 minutes."
+          description: "OSD {{ $labels.ceph_daemon }} ({{ $labels.hostname }}) commit latency is {{ $value | printf \"%.0f\" }}ms, exceeding 300ms threshold for more than 10 minutes."
 
       - alert: CephOSDCommitLatencyOutlier
         expr: |
           (
-            (ceph_osd_commit_latency_ms > 50)
+            (ceph_osd_commit_latency_ms > 150)
             and
             (ceph_osd_commit_latency_ms > on() group_left 2 * avg(ceph_osd_commit_latency_ms))
           )
