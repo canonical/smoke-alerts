@@ -133,9 +133,9 @@ An overview of all alert rules.
 |------------|-------------------|----------|
 | **CephOSDDownSpecific** | An OSD down for 10 minutes | Warning |
 | **CephOSDDownAllOnHost** | All OSDs in a host down for 10 minutes | Critical |
-| **CephOSDCommitLatencyHigh** | OSD commit latency >50ms for 10 minutes | Warning |
-| **CephOSDCommitLatencyCritical** | OSD commit latency >200ms for 10 minutes | Critical |
-| **CephOSDCommitLatencyOutlier** | OSD commit latency >50ms AND >2x cluster average for 10 minutes | Warning |
+| **CephOSDCommitLatencyHigh** | OSD commit latency >150ms for 10 minutes | Warning |
+| **CephOSDCommitLatencyCritical** | OSD commit latency >300ms for 10 minutes | Critical |
+| **CephOSDCommitLatencyOutlier** | OSD commit latency >150ms AND >2x cluster average for 10 minutes | Warning |
 
 ### Loki Alerts
 | Alert Name | Trigger Condition | Severity |
