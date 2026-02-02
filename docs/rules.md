@@ -125,3 +125,22 @@ An overview of all alert rules.
 |------------|-------------------|----------|
 | **CharmedOpenSearchSecurityAuditEventsHigh** | >3 security audit events in 10 minutes | Warning |
 | **CharmedOpenSearchSecurityAuditEventsCritical** | >5 security audit events in 10 minutes | Critical |
+
+## Charmed Ceph Alert Rules
+
+### Prometheus Alerts
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CephOSDDownSpecific** | An OSD down for 10 minutes | Warning |
+| **CephOSDDownAllOnHost** | All OSDs in a host down for 10 minutes | Critical |
+| **CephOSDCommitLatencyHigh** | OSD commit latency >150ms for 10 minutes | Warning |
+| **CephOSDCommitLatencyCritical** | OSD commit latency >300ms for 10 minutes | Critical |
+| **CephOSDCommitLatencyOutlier** | OSD commit latency >150ms AND >2x cluster average for 10 minutes | Warning |
+
+### Loki Alerts
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CephAPIFailureRateHigh** | Ceph API failure rate >20% over 1 hour (excludes /api/auth) | Warning |
+| **CephAPIFailureRateCritical** | Ceph API failure rate >70% over 1 hour (excludes /api/auth) | Critical |
+| **CephAuthFailureRateHigh** | Ceph authentication failure rate >20% over 1 hour | Warning |
+| **CephAuthFailureRateCritical** | Ceph authentication failure rate >70% over 1 hour | Critical |
