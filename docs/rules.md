@@ -116,3 +116,12 @@ An overview of all alert rules.
 |------------|-------------------|----------|
 | **KubeflowGatewayFailureRateHigh** | User-facing API failure rate (4xx/5xx) >20% over 1 hour | Warning |
 | **KubeflowGatewayFailureRateCritical** | User-facing API failure rate (4xx/5xx) >70% over 1 hour | Critical |
+
+## Charmed OpenSearch Alert Rules
+
+### Loki Alerts
+
+| Alert Name | Trigger Condition | Severity |
+|------------|-------------------|----------|
+| **CharmedOpenSearchSecurityAuditEventsHigh** | >3 security audit events in 10 minutes | Warning |
+| **CharmedOpenSearchSecurityAuditEventsCritical** | >5 security audit events in 10 minutes | Critical |
