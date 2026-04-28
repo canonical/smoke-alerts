@@ -8,6 +8,7 @@ groups:
         for: 10m
         labels:
           severity: warning
+          component: smoke-detector
           type: ceph_default
           alert_type: osd_down
           service: ceph-osd
@@ -25,6 +26,7 @@ groups:
         for: 10m
         labels:
           severity: critical
+          component: smoke-detector
           type: ceph_default
           alert_type: osd_down
           service: ceph-osd
@@ -39,6 +41,7 @@ groups:
         for: 10m
         labels:
           severity: warning
+          component: smoke-detector
           type: ceph_default
           alert_type: osd_latency
           service: ceph-osd
@@ -53,6 +56,7 @@ groups:
         for: 10m
         labels:
           severity: critical
+          component: smoke-detector
           type: ceph_default
           alert_type: osd_latency
           service: ceph-osd
@@ -71,6 +75,7 @@ groups:
         for: 10m
         labels:
           severity: warning
+          component: smoke-detector
           type: ceph_default
           alert_type: osd_latency
           service: ceph-osd

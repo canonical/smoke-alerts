@@ -32,6 +32,7 @@ groups:
           labels:
             alert_type: api_failure_rate
             severity: warning
+            component: smoke-detector
           annotations:
             description: API failure rate for {{ $labels.filename }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
             summary: High API failure rate detected in Charmed OpenStack
@@ -66,6 +67,7 @@ groups:
           labels:
             alert_type: api_failure_rate
             severity: critical
+            component: smoke-detector
           annotations:
             description: API failure rate for {{ $labels.filename }} is {{ $value }}% over the last hour, exceeding the 70% critical threshold.
             summary: Critical API failure rate detected in Charmed OpenStack
@@ -104,6 +106,7 @@ groups:
             alert_type: authentication_failure
             service: keystone
             severity: warning
+            component: smoke-detector
           annotations:
             description: Keystone service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Keystone API failures detected in Charmed OpenStack
@@ -139,6 +142,7 @@ groups:
             alert_type: compute_failure
             service: nova
             severity: warning
+            component: smoke-detector
           annotations:
             description: Nova compute service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Nova Compute API failures detected in Charmed OpenStack
@@ -174,6 +178,7 @@ groups:
             alert_type: network_failure
             service: neutron
             severity: warning
+            component: smoke-detector
           annotations:
             description: Neutron service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Neutron Network API failures detected in Charmed OpenStack
@@ -209,6 +214,7 @@ groups:
             alert_type: image_failure
             service: glance
             severity: warning
+            component: smoke-detector
           annotations:
             description: Glance image service is experiencing {{ $value }}% failure rate over the last 10 minutes.
             summary: Glance Image API failures detected in Charmed OpenStack
@@ -235,6 +241,7 @@ groups:
             alert_type: security_event
             event_type: role_assignment
             severity: warning
+            component: smoke-detector
           annotations:
             description: New role assignment has been detected. Review the change for security compliance.
             summary: Role assignment detected in Charmed OpenStack
@@ -274,6 +281,7 @@ groups:
             alert_type: security_event
             event_type: login_failure
             severity: warning
+            component: smoke-detector
           annotations:
             description: Login failure rate is {{ $value }}% over the last hour, indicating potential security issues or service problems.
             summary: High login failure rate in Charmed OpenStack
@@ -297,6 +305,7 @@ groups:
             alert_type: security_event
             event_type: multiple_login_failures
             severity: warning
+            component: smoke-detector
           annotations:
             description: User {{ $labels.initiator_name }} has {{ $value }} failed login attempts in the last 10 minutes.
             summary: Multiple failed login attempts detected for user in Charmed OpenStack
@@ -320,6 +329,7 @@ groups:
             alert_type: security_event
             event_type: multiple_login_failures
             severity: critical
+            component: smoke-detector
           annotations:
             description: User {{ $labels.initiator_name }} has {{ $value }} failed login attempts in the last 10 minutes.
             summary: Multiple failed login attempts detected for user in Charmed OpenStack
@@ -352,6 +362,7 @@ groups:
           labels:
             alert_type: api_abuse
             severity: warning
+            component: smoke-detector
           annotations:
             description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline."
             summary: Sudden burst of API requests detected in Charmed OpenStack
@@ -370,6 +381,7 @@ groups:
             alert_type: api_abuse
             service: keystone
             severity: warning
+            component: smoke-detector
           annotations:
             description: "Keystone service is receiving {{ $value }} requests/second over the last 10 minutes."
             summary: Keystone API request flood in Charmed OpenStack
@@ -388,6 +400,7 @@ groups:
             alert_type: api_abuse
             service: nova
             severity: warning
+            component: smoke-detector
           annotations:
             description: "Nova compute service is receiving {{ $value }} requests/second over the last 10 minutes."
             summary: Nova API request flood in Charmed OpenStack
