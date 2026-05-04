@@ -1,6 +1,8 @@
 namespace: charmed_opensearch_rules
 groups:
   - name: charmed-opensearch-audit-events
+    labels:
+      component: smoke-detector
     rules:
       - alert: CharmedOpenSearchSecurityAuditEventsHigh
         expr: |-
@@ -19,7 +21,6 @@ groups:
           alert_type: security_event
           service: opensearch
           severity: warning
-          component: smoke-detector
         annotations:
           description: |
             OpenSearch in {{ $labels.juju_model }} has {{ $value }} {{ $labels.audit_category }} security events in the last 10 minutes.
@@ -43,7 +44,6 @@ groups:
           alert_type: security_event
           service: opensearch
           severity: critical
-          component: smoke-detector
         annotations:
           description: |
             OpenSearch in {{ $labels.juju_model }} has {{ $value }} {{ $labels.audit_category }} security events in the last 10 minutes.
