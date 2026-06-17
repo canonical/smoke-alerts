@@ -1,8 +1,6 @@
 namespace: landscape_server_rules
 groups:
   - name: landscape-server-api-failures
-    labels:
-      component: smoke-detector
     rules:
       - alert: LandscapeAPIFailureRateHigh
         expr: |-
@@ -21,6 +19,7 @@ groups:
           alert_type: api_failure_rate
           service: landscape
           severity: warning
+          component: smoke-detector
         annotations:
           description: |
             API failure rate for {{ $labels.juju_model }}
@@ -44,6 +43,7 @@ groups:
           alert_type: api_failure_rate
           service: landscape
           severity: critical
+          component: smoke-detector
         annotations:
           description: |
             CRITICAL: API failure rate for {{ $labels.juju_model }}

@@ -1,8 +1,6 @@
 namespace: canonical_k8s_rules
 groups:
     - name: canonical-k8s-security-rbac
-      labels:
-        component: smoke-detector
       rules:
         - alert: CanonicalK8sRoleCreated
           expr: |-
@@ -19,6 +17,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Role was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Role created in Canonical K8s
@@ -38,6 +37,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Role was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Role updated in Canonical K8s
@@ -57,6 +57,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Role was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Role deleted in Canonical K8s
@@ -76,6 +77,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRole was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRole created in Canonical K8s
@@ -95,6 +97,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRole was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRole updated in Canonical K8s
@@ -114,6 +117,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRole was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRole deleted in Canonical K8s
@@ -133,6 +137,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s RoleBinding was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes RoleBinding created in Canonical K8s
@@ -152,6 +157,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s RoleBinding was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes RoleBinding updated in Canonical K8s
@@ -171,6 +177,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s RoleBinding was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes RoleBinding deleted in Canonical K8s
@@ -190,6 +197,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRoleBinding was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRoleBinding created in Canonical K8s
@@ -209,6 +217,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRoleBinding was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRoleBinding updated in Canonical K8s
@@ -228,6 +237,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ClusterRoleBinding was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ClusterRoleBinding deleted in Canonical K8s
@@ -247,6 +257,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ServiceAccount was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ServiceAccount created in Canonical K8s
@@ -266,6 +277,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ServiceAccount was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ServiceAccount updated in Canonical K8s
@@ -285,6 +297,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s ServiceAccount was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes ServiceAccount deleted in Canonical K8s
@@ -304,6 +317,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Secret was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Secret created in Canonical K8s
@@ -323,6 +337,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Secret was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Secret updated in Canonical K8s
@@ -342,6 +357,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s Secret was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes Secret deleted in Canonical K8s
@@ -361,6 +377,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s DaemonSet was created in the past 3 days. Review the change for security compliance.
             summary: Kubernetes DaemonSet created in Canonical K8s
@@ -380,6 +397,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s DaemonSet was updated in the past 3 days. Review the change for security compliance.
             summary: Kubernetes DaemonSet updated in Canonical K8s
@@ -399,14 +417,13 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: K8s DaemonSet was deleted in the past 3 days. Review the change for security compliance.
             summary: Kubernetes DaemonSet deleted in Canonical K8s
 
 
     - name: canonical-k8s-security-authentication
-      labels:
-        component: smoke-detector
       rules:
         - alert: CanonicalK8sUserAccessFailuresWarning
           expr: |-
@@ -422,6 +439,7 @@ groups:
           labels:
             alert_type: security_event
             severity: warning
+            component: smoke-detector
           annotations:
             description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible credential issue, permission misconfiguration, or unauthorized access attempt.
             summary: Multiple access failures detected for user in Canonical K8s
@@ -440,13 +458,12 @@ groups:
           labels:
             alert_type: security_event
             severity: critical
+            component: smoke-detector
           annotations:
             description: User {{ $labels.user_username }} had {{ $value }} access failures (401/403) in the last 10 minutes. Possible brute-force attack or privilege escalation attempt detected.
             summary: Excessive access failures detected for user in Canonical K8s
 
     - name: canonical-k8s-excessive-requests
-      labels:
-        component: smoke-detector
       rules:
         - alert: CanonicalK8sAPIRequestBurst
           expr: |-
@@ -472,6 +489,7 @@ groups:
           labels:
             alert_type: api_abuse
             severity: warning
+            component: smoke-detector
           annotations:
             description: "API request rate in {{ $labels.juju_model }} is {{ $value }} requests/second over the last 10 minutes, exceeding 3x the 1-hour baseline. Possible DDoS attack, misconfigured automation, or retry storm detected."
             summary: Sudden burst of API requests detected in Canonical K8s
@@ -489,6 +507,7 @@ groups:
           labels:
             alert_type: api_abuse
             severity: warning
+            component: smoke-detector
           annotations:
             description: "User {{ $labels.user_username }} has made {{ $value }} requests/second in the last 10 minutes. Possible compromised service account, runaway application, or abusive client behavior."
             summary: High API request rate from single user in Canonical K8s

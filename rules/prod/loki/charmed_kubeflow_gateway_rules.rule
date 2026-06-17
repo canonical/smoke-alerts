@@ -1,8 +1,6 @@
 namespace: kubeflow_gateway_rules
 groups:
   - name: kubeflow-gateway-api-failures
-    labels:
-      component: smoke-detector
     rules:
       - alert: KubeflowGatewayFailureRateHigh
         expr: |-
@@ -21,6 +19,7 @@ groups:
           alert_type: api_failure_rate
           service: kubeflow
           severity: warning
+          component: smoke-detector
         annotations:
           description: |
             User-facing API failure rate for Kubeflow in {{ $labels.juju_model }}
@@ -45,6 +44,7 @@ groups:
           alert_type: api_failure_rate
           service: kubeflow
           severity: critical
+          component: smoke-detector
         annotations:
           description: |
             User-facing API failure rate for Kubeflow in {{ $labels.juju_model }}

@@ -1,8 +1,6 @@
 namespace: ceph_dashboard_rules
 groups:
   - name: ceph-dashboard-api-failures
-    labels:
-      component: smoke-detector
     rules:
     - alert: CephAPIFailureRateHigh
       expr: |-
@@ -36,6 +34,7 @@ groups:
         alert_type: api_failure_rate
         service: ceph-dashboard
         severity: warning
+        component: smoke-detector
       annotations:
         description: Ceph API failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
         summary: High Ceph API failure rate detected
@@ -72,6 +71,7 @@ groups:
         alert_type: api_failure_rate
         service: ceph-dashboard
         severity: critical
+        component: smoke-detector
       annotations:
         description: Ceph API failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 70% threshold.
         summary: Critical Ceph API failure rate detected
@@ -108,6 +108,7 @@ groups:
         alert_type: auth_failure_rate
         service: ceph-dashboard
         severity: warning
+        component: smoke-detector
       annotations:
         description: Ceph authentication failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 20% threshold.
         summary: High Ceph authentication failure rate detected
@@ -144,6 +145,7 @@ groups:
         alert_type: auth_failure_rate
         service: ceph-dashboard
         severity: critical
+        component: smoke-detector
       annotations:
         description: Ceph authentication failure rate in model {{ $labels.juju_model }} is {{ $value }}% over the last hour, exceeding the 70% threshold.
         summary: Critical Ceph authentication failure rate detected
