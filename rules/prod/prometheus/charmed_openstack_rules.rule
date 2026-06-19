@@ -10,6 +10,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Subnet {{ $labels.subnet_name }} ({{ $labels.cidr }}) in network {{ $labels.network_name }} is using {{ $value | humanize }}% of available IPs"
           summary: "Neutron subnet IP addresses critically low in Charmed OpenStack"
@@ -21,6 +22,7 @@ groups:
         labels:
           alert_type: network_quota_exhaustion
           severity: critical
+          component: smoke-detector
           service: neutron
         annotations:
           description: "Subnet {{ $labels.subnet_name }} ({{ $labels.cidr }}) in network {{ $labels.network_name }} has exhausted all available IPs"
@@ -34,6 +36,7 @@ groups:
         labels:
           alert_type: network_quota_exhaustion
           severity: warning
+          component: smoke-detector
           service: neutron
         annotations:
           description: "Pool {{ $labels.subnet_pool_name }} has allocated {{ $value | humanize }}% of available /{{ $labels.prefix_length }} subnets"
@@ -46,6 +49,7 @@ groups:
         labels:
           alert_type: network_quota_exhaustion
           severity: critical
+          component: smoke-detector
           service: neutron
         annotations:
           description: "Cannot allocate more /{{ $labels.prefix_length }} subnets from pool {{ $labels.subnet_pool_name }}"
@@ -60,6 +64,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Network quota usage is at {{ $value | humanize }}%"
           summary: "Neutron network quota usage high in Charmed OpenStack"
@@ -72,6 +77,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available networks"
           summary: "Neutron network quota usage critically high in Charmed OpenStack"
@@ -84,6 +90,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Port quota usage is at {{ $value | humanize }}%"
           summary: "Neutron port quota usage high in Charmed OpenStack"
@@ -96,6 +103,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available ports"
           summary: "Neutron port quota usage critically high in Charmed OpenStack"
@@ -108,6 +116,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Router quota usage is at {{ $value | humanize }}%"
           summary: "Neutron router quota usage high in Charmed OpenStack"
@@ -120,6 +129,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available routers"
           summary: "Neutron router quota usage critically high in Charmed OpenStack"
@@ -132,6 +142,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Floating IP quota usage is at {{ $value | humanize }}%"
           summary: "Neutron floating IP quota usage high in Charmed OpenStack"
@@ -144,6 +155,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available floating IPs"
           summary: "Neutron floating IP quota usage critically high in Charmed OpenStack"
@@ -156,6 +168,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Subnet quota usage is at {{ $value | humanize }}%"
           summary: "Neutron subnet quota usage high in Charmed OpenStack"
@@ -168,6 +181,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available subnets"
           summary: "Neutron subnet quota usage critically high in Charmed OpenStack"
@@ -180,6 +194,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: warning
+          component: smoke-detector
         annotations:
           description: "Security group quota usage is at {{ $value | humanize }}%"
           summary: "Neutron security group quota usage high in Charmed OpenStack"
@@ -192,6 +207,7 @@ groups:
           alert_type: network_quota_exhaustion
           service: neutron
           severity: critical
+          component: smoke-detector
         annotations:
           description: "Exhausted all available security groups"
           summary: "Neutron security group quota usage critically high in Charmed OpenStack"
